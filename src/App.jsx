@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useWebSocket } from './hooks/createConnectionHook';
+import CreateGameForm from './components/forms/createGameForm';
+import JoinGameForm from './components/forms/JoinGameForm';
+import GamePage from './pages/GamePage';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function HomePage() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div style={{ padding: '20px', maxWidth: '400px', margin: '50px auto', textAlign: 'center' }}>
+      <h1>Квіз</h1>
+      <a href="/create" style={{ display: 'block', marginBottom: '10px' }}>
+        <button style={{ width: '100%', padding: '12px', fontSize: '16px', cursor: 'pointer' }}>
+          Створити гру
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </a>
+      <a href="/join" style={{ display: 'block' }}>
+        <button style={{ width: '100%', padding: '12px', fontSize: '16px', cursor: 'pointer' }}>
+          Приєднатися до гри
+        </button>
+      </a>
+    </div>
+  );
 }
 
-export default App
+function CreateGamePage({ createGame, wsLoading, gameState }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (gameState?.roomId) {
+      navigate(`/game/${gameState.roomId}`);
+    }
+  }, [gameState, navigate]);
+
+  return <CreateGameForm createGame={createGame} wsLoading={wsLoading} />;
+}
+
+function JoinGamePage({ joinGame, wsLoading, gameState }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (gameState?.roomId) {
+      navigate(`/game/${gameState.roomId}`);
+    }
+  }, [gameState, navigate]);
+
+  return <JoinGameForm joinGame={joinGame} wsLoading={wsLoading} />;
+}
+
+function App() {
+  const { createGame, joinGame, loading: wsLoading, gameState } = useWebSocket();
+
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/create" element={<CreateGamePage createGame={createGame} wsLoading={wsLoading} gameState={gameState} />} />
+      <Route path="/join" element={<JoinGamePage joinGame={joinGame} wsLoading={wsLoading} gameState={gameState} />} />
+      <Route path="/game/:gameId" element={<GamePage gameState={gameState} />} />
+    </Routes>
+  );
+}
+
+export default App;
