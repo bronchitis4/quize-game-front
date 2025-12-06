@@ -7,18 +7,20 @@ import GamePage from './pages/GamePage';
 
 function HomePage() {
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: '50px auto', textAlign: 'center' }}>
-      <h1>Квіз</h1>
-      <a href="/create" style={{ display: 'block', marginBottom: '10px' }}>
-        <button style={{ width: '100%', padding: '12px', fontSize: '16px', cursor: 'pointer' }}>
-          Створити гру
-        </button>
-      </a>
-      <a href="/join" style={{ display: 'block' }}>
-        <button style={{ width: '100%', padding: '12px', fontSize: '16px', cursor: 'pointer' }}>
-          Приєднатися до гри
-        </button>
-      </a>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="max-w-sm w-full p-8">
+        <h1 className="text-3xl font-bold text-center mb-8">Квіз</h1>
+        <a href="/create" className="block mb-4">
+          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Створити гру
+          </button>
+        </a>
+        <a href="/join" className="block">
+          <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">
+            Приєднатися до гри
+          </button>
+        </a>
+      </div>
     </div>
   );
 }

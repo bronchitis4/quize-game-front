@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const JoinGameForm = ({ joinGame, wsLoading }) => {
-  const [step, setStep] = useState('profile'); // profile, join
+  const [step, setStep] = useState('profile');
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
@@ -48,91 +48,95 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
 
   if (step === 'profile') {
     return (
-      <div style={{ padding: '20px', maxWidth: '400px', margin: '50px auto' }}>
-        <h2>Приєднатися до гри</h2>
-        <form onSubmit={handleProfileSubmit}>
-          <div style={{ marginBottom: '15px' }}>
-            <label>Ім'я:</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '15px' }}>
-            <label>Аватар:</label>
-            <input
-              type="file"
-              id="avatar"
-              onChange={handleAvatarChange}
-              accept="image/*"
-              style={{ width: '100%', padding: '8px', marginTop: '5px' }}
-            />
-          </div>
-
-          {avatarPreview && (
-            <div style={{ marginBottom: '15px', textAlign: 'center' }}>
-              <img src={avatarPreview} alt="Preview" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-sm">
+          <h2 className="text-2xl font-bold mb-4">Приєднатися до гри</h2>
+          <form onSubmit={handleProfileSubmit} className="space-y-3">
+            <div>
+              <label className="block text-sm font-bold mb-1">Ім'я:</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 border rounded"
+              />
             </div>
-          )}
 
-          {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+            <div>
+              <label className="block text-sm font-bold mb-1">Аватар:</label>
+              <input
+                type="file"
+                id="avatar"
+                onChange={handleAvatarChange}
+                accept="image/*"
+                className="w-full px-3 py-2 border rounded"
+              />
+            </div>
 
-          <button type="submit" style={{ width: '100%', padding: '10px', fontSize: '16px' }}>
-            Далі
-          </button>
-        </form>
+            {avatarPreview && (
+              <div className="text-center">
+                <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto" />
+              </div>
+            )}
+
+            {error && <div className="text-red-600 text-sm p-2 border border-red-300 rounded bg-red-50">{error}</div>}
+
+            <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+              Далі
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: '50px auto' }}>
-      <h2>Приєднатися до гри</h2>
-      <form onSubmit={handleJoinGame}>
-        <div style={{ marginBottom: '15px', textAlign: 'center' }}>
-          {avatarPreview && (
-            <img src={avatarPreview} alt="Avatar" style={{ width: '80px', height: '80px', borderRadius: '50%', marginBottom: '10px' }} />
-          )}
-          <p style={{ fontWeight: 'bold' }}>{name}</p>
-        </div>
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="w-full max-w-sm">
+        <h2 className="text-2xl font-bold mb-4">Приєднатися до гри</h2>
+        <form onSubmit={handleJoinGame} className="space-y-3">
+          <div className="text-center mb-4">
+            {avatarPreview && (
+              <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full mx-auto mb-2" />
+            )}
+            <p className="font-bold">{name}</p>
+          </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label>ID гри:</label>
-          <input
-            type="text"
-            value={gameId}
-            onChange={(e) => setGameId(e.target.value)}
-            placeholder="Скопіюйте ID з хостера"
-            style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
-          />
-        </div>
+          <div>
+            <label className="block text-sm font-bold mb-1">ID гри:</label>
+            <input
+              type="text"
+              value={gameId}
+              onChange={(e) => setGameId(e.target.value)}
+              placeholder="Скопіюйте ID з хостера"
+              className="w-full px-3 py-2 border rounded"
+            />
+          </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label>Пароль:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '8px', marginTop: '5px', boxSizing: 'border-box' }}
-          />
-        </div>
+          <div>
+            <label className="block text-sm font-bold mb-1">Пароль:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded"
+            />
+          </div>
 
-        {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+          {error && <div className="text-red-600 text-sm p-2 border border-red-300 rounded bg-red-50">{error}</div>}
 
-        <button type="submit" disabled={wsLoading} style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '10px' }}>
-          {wsLoading ? 'Приєднання...' : 'Приєднатися'}
-        </button>
-        <button
-          type="button"
-          onClick={() => setStep('profile')}
-          style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-        >
-          Назад
-        </button>
-      </form>
+          <button type="submit" disabled={wsLoading} className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-2 rounded">
+            {wsLoading ? 'Приєднання...' : 'Приєднатися'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setStep('profile')}
+            className="w-full bg-gray-300 hover:bg-gray-400 py-2 rounded"
+          >
+            Назад
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
