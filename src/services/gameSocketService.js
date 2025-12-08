@@ -158,6 +158,14 @@ class GameSocketService extends SimpleEventEmitter {
             this.#socket.emit('leave_game');
         }
     }
+
+    loadPackage(gameId, packageData) {
+        if (this.#socket.connected) {
+            const packageArray = packageData.categories || packageData;
+            console.log('Emitting load_package with data:', { gameId, package: packageArray });
+            this.#socket.emit('load_package', { gameId, package: packageArray });
+        }
+    }
 }
 
 export default new GameSocketService();
