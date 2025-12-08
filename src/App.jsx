@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useWebSocket } from './hooks/createConnectionHook';
 import CreateGameForm from './components/forms/createGameForm';
-import JoinGameForm from './components/forms/JoinGameForm';
+import JoinGameForm from './components/forms/joinGameForm';
 import GamePage from './pages/GamePage';
 
 function HomePage() {
