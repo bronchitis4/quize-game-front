@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import UserBar from '../components/userbar/UserBar';
 import GameBoard from '../components/gameboard/gameboard';
 import QuestionView from '../components/question/QuestionView';
+import Podium from '../components/podium/Podium';
 import gameSocketService from '../services/gameSocketService';
 
 const GamePage = ({ gameState }) => {
@@ -10,7 +11,6 @@ const GamePage = ({ gameState }) => {
   const [packageLoaded, setPackageLoaded] = useState(!!gameState?.package);
 
   useEffect(() => {
-    // Оновити статус паку при зміні gameState
     setPackageLoaded(!!gameState?.package);
   }, [gameState?.package]);
 
@@ -20,6 +20,8 @@ const GamePage = ({ gameState }) => {
 
   const hostPlayer = gameState.players?.[0];
   const isPackageValid = gameState?.package?.categories && gameState.package.categories.length > 0;
+  const isHostLocal = gameState.players?.find(p => p.isHost)?.id === gameSocketService.getSocketId();
+  const currentQuestion = gameState?.currentQuestion?.question;
 
   const handleUploadPack = () => {
     const input = document.createElement('input');
@@ -91,6 +93,24 @@ const GamePage = ({ gameState }) => {
                 </button>
               </>
             )}
+
+            {/* Host controls during active question */}
+            {gameState.status === 'QUESTION_ACTIVE' && isHostLocal && currentQuestion && (
+              <div className="mt-4">
+                <div className="bg-yellow-500 text-black text-sm font-bold text-center py-1 rounded">{gameState.players?.find(p => p.id === (Array.isArray(gameState.currentAnswerer) ? gameState.currentAnswerer[0] : gameState.currentAnswerer))?.name} відповідає...</div>
+
+                <div className="bg-green-900 p-3 rounded mt-3">
+                  <div className="text-gray-300 text-xs">Правильна відповідь:</div>
+                  <div className="text-white text-sm font-bold">{currentQuestion.answer}</div>
+                </div>
+
+                <div className="flex flex-col gap-2 mt-3">
+                  <button onClick={() => gameSocketService.correctAnswer(gameId, gameState.currentSelector)} className="bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded font-bold">✓ Зарахувати</button>
+                  <button onClick={() => gameSocketService.wrongAnswer(gameId, gameState.currentSelector)} className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-2 rounded font-bold">✗ Не зарахувати</button>
+                  <button onClick={() => gameSocketService.skipQuestion(gameId)} className="bg-gray-600 hover:bg-gray-700 text-white px-2 py-2 rounded font-bold">⏭ Пропустити</button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -110,6 +130,10 @@ const GamePage = ({ gameState }) => {
           {gameState.status === 'QUESTION_ACTIVE' && (
             <QuestionView gameState={gameState} isHost={gameState.players?.find(p => p.isHost)?.id === gameSocketService.getSocketId()} />
           )}
+
+          {gameState.status === 'FINISHED' && (
+            <Podium players={gameState.players || []} />
+          )}
           {gameState.status === 'ENDED' && (
             <div className="text-center text-white">
               <h2 className="text-3xl font-bold">Гра закінчена!</h2>
@@ -125,7 +149,7 @@ const GamePage = ({ gameState }) => {
                 name={player.name} 
                 avatarUrl={player.avatarUrl} 
                 score={player.score}
-                isCurrentSelector={player.id === gameState.currentSelector}
+                isCurrentSelector={player.id === gameState.currentAnswerer[0]}
               />
             ))}
           </div>

@@ -38,7 +38,8 @@
           "type": "image",
           "content": "https://upload.wikimedia.org/wikipedia/commons/0/06/Viktor_Kovalyov_%28mid-19th_century%29_Last_Rada_on_Sich.jpg",
           "hint": "Подія XVII століття",
-          "answer": "Козацька рада"
+          "answer": "Козацька рада",
+          "text": "Назвіть подію на зображенні."
         },
         {
           "points": 1500,
