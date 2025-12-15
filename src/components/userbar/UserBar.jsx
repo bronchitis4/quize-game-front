@@ -1,7 +1,7 @@
 
-const UserBar = ({name, avatarUrl, score}) => {
+const UserBar = ({name, avatarUrl, score, isCurrentSelector}) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className={`flex flex-col items-center ${isCurrentSelector ? 'border-4 border-green-500' : ''}`}>
       <div className="w-24 h-24 bg-green-500 flex items-center justify-center mb-0">
         <img src={avatarUrl || "https://via.placeholder.com/96"} alt={name} className="w-full h-full object-cover" />
       </div>

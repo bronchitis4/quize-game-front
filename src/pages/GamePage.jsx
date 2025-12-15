@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import UserBar from '../components/userbar/UserBar';
+import GameBoard from '../components/gameboard/gameboard';
+import QuestionView from '../components/question/QuestionView';
 import gameSocketService from '../services/gameSocketService';
 
 const GamePage = ({ gameState }) => {
@@ -44,12 +46,16 @@ const GamePage = ({ gameState }) => {
     input.click();
   };
 
+  const handleStartGame = () => {
+    gameSocketService.startGame(gameId);
+  };
+
   return (
     <div className="flex h-screen bg-gray-200 gap-2 p-2">
-      <div className="w-40 bg-red-600 p-4 flex flex-col gap-3 border-4 border-red-700">
+      <div className="w-40 bg-blue-600 p-4 flex flex-col gap-3 border-4 border-blue-700">
         {hostPlayer && (
           <>
-            <div className="border-2 border-red-700 p-2 bg-red-700">
+            <div className="border-2 border-blue-700 p-2 bg-blue-700">
               <div className="w-full h-24 bg-green-500 flex items-center justify-center mb-0">
                 <img src={hostPlayer.avatarUrl || "https://via.placeholder.com/96"} alt={hostPlayer.name} className="w-full h-full object-cover" />
               </div>
@@ -60,30 +66,37 @@ const GamePage = ({ gameState }) => {
             <div className="bg-gray-500 py-2 px-2 text-center text-xs font-bold text-gray-800">
               Ведучий
             </div>
-            <button 
-              className="bg-gray-500 py-2 px-2 text-xs font-bold text-gray-800 hover:bg-gray-600"
-              onClick={handleUploadPack}
-            >
-              завантажити пак
-            </button>
-            {packageLoaded && isPackageValid ? (
-              <div className="bg-green-500 py-2 px-2 text-center text-xs font-bold text-gray-800">
-                Пак завантажений
-              </div>
-            ) : (
-              <div className="bg-gray-400 py-2 px-2 text-center text-xs font-bold text-gray-800">
-                Пака нема
-              </div>
+            {gameState.status === 'LOBBY' && (
+              <>
+                <button 
+                  className="bg-gray-500 py-2 px-2 text-xs font-bold text-gray-800 hover:bg-gray-600"
+                  onClick={handleUploadPack}
+                >
+                  завантажити пак
+                </button>
+                {packageLoaded && isPackageValid ? (
+                  <div className="bg-green-500 py-2 px-2 text-center text-xs font-bold text-gray-800">
+                    Пак завантажений
+                  </div>
+                ) : (
+                  <div className="bg-gray-400 py-2 px-2 text-center text-xs font-bold text-gray-800">
+                    Пака нема
+                  </div>
+                )}
+                <button 
+                  className="bg-gray-500 py-2 px-2 text-xs font-bold text-gray-800 hover:bg-gray-600"
+                  onClick={handleStartGame}
+                >
+                  Розпочати гру
+                </button>
+              </>
             )}
-            <button className="bg-gray-500 py-2 px-2 text-xs font-bold text-gray-800 hover:bg-gray-600">
-              Розпочати гру
-            </button>
           </>
         )}
       </div>
 
       <div className="flex-1 flex flex-col gap-2">
-        <div className="bg-red-600 flex-1 flex items-center justify-center border-4 border-red-700">
+        <div className="bg-blue-600 flex-1 flex items-center justify-center border-4 border-blue-700">
           {gameState.status === 'LOBBY' && (
             <div className="flex gap-8">
               <div className="w-12 h-12 bg-gray-300 rounded-full animate-pulse"></div>
@@ -91,10 +104,11 @@ const GamePage = ({ gameState }) => {
               <div className="w-12 h-12 bg-gray-300 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
             </div>
           )}
-          {gameState.status === 'IN_PROGRESS' && (
-            <div className="text-center text-white">
-              <h2 className="text-3xl font-bold">Запитання буде тут...</h2>
-            </div>
+          {gameState.status === 'PLAYING' && (
+            <GameBoard gameState={gameState} isHost={gameState.players?.find(p => p.isHost)?.id === gameSocketService.getSocketId()} />
+          )}
+          {gameState.status === 'QUESTION_ACTIVE' && (
+            <QuestionView gameState={gameState} isHost={gameState.players?.find(p => p.isHost)?.id === gameSocketService.getSocketId()} />
           )}
           {gameState.status === 'ENDED' && (
             <div className="text-center text-white">
@@ -103,10 +117,16 @@ const GamePage = ({ gameState }) => {
           )}
         </div>
 
-        <div className="bg-red-600 p-4 border-4 border-red-700">
+        <div className="bg-blue-600 p-4 border-4 border-blue-700">
           <div className="grid grid-cols-4 gap-4">
             {gameState.players?.filter((_, index) => index !== 0).map(player => (
-              <UserBar key={player.id} name={player.name} avatarUrl={player.avatarUrl} score={player.score} />
+              <UserBar 
+                key={player.id} 
+                name={player.name} 
+                avatarUrl={player.avatarUrl} 
+                score={player.score}
+                isCurrentSelector={player.id === gameState.currentSelector}
+              />
             ))}
           </div>
         </div>
