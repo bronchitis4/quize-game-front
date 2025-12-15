@@ -73,6 +73,12 @@ class GameSocketService extends SimpleEventEmitter {
             this.#gameState = state;
             this.emit('state_update', state);
         });
+
+        this.#socket.on('game_started', (gameState) => {
+            console.log('game_started event received:', gameState);
+            this.#gameState = gameState;
+            this.emit('game_started', gameState);
+        });
     }
     
     connect() {
@@ -135,9 +141,9 @@ class GameSocketService extends SimpleEventEmitter {
         }
     }
     
-    startGame() {
+    startGame(gameId) {
         if (this.#socket.connected) {
-            this.#socket.emit('start_game');
+            this.#socket.emit('start_game', { gameId });
         }
     }
     
@@ -164,6 +170,27 @@ class GameSocketService extends SimpleEventEmitter {
             const packageArray = packageData.categories || packageData;
             console.log('Emitting load_package with data:', { gameId, package: packageArray });
             this.#socket.emit('load_package', { gameId, package: packageArray });
+        }
+    }
+
+    selectQuestion(gameId, categoryIndex, questionIndex) {
+        if (this.#socket.connected) {
+            console.log('Emitting select_question:', { gameId, categoryIndex, questionIndex });
+            this.#socket.emit('select_question', { gameId, categoryIndex, questionIndex });
+        }
+    }
+
+    correctAnswer(gameId, playerId) {
+        if (this.#socket.connected) {
+            console.log('Emitting correct_answer:', { gameId, playerId });
+            this.#socket.emit('correct_answer', { gameId, playerId });
+        }
+    }
+
+    wrongAnswer(gameId, playerId) {
+        if (this.#socket.connected) {
+            console.log('Emitting wrong_answer:', { gameId, playerId });
+            this.#socket.emit('wrong_answer', { gameId, playerId });
         }
     }
 }

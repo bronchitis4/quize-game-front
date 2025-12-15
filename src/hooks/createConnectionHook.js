@@ -41,6 +41,13 @@ export const useWebSocket = () => {
         };
         
         const handleStateUpdate = (state) => {
+            console.log('State update received in hook:', state);
+            setGameState(state);
+            setLoading(false);
+        };
+
+        const handleGameStarted = (state) => {
+            console.log('Game started received in hook:', state);
             setGameState(state);
             setLoading(false);
         };
@@ -50,6 +57,7 @@ export const useWebSocket = () => {
         gameSocketService.on('game_created', handleGameCreated);
         gameSocketService.on('game_joined', handleGameJoined);
         gameSocketService.on('state_update', handleStateUpdate);
+        gameSocketService.on('game_started', handleGameStarted);
 
         gameSocketService.connect();
 
@@ -59,6 +67,7 @@ export const useWebSocket = () => {
             gameSocketService.off('game_created', handleGameCreated);
             gameSocketService.off('game_joined', handleGameJoined);
             gameSocketService.off('state_update', handleStateUpdate);
+            gameSocketService.off('game_started', handleGameStarted);
         };
     }, []);
 

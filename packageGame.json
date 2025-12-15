@@ -1,0 +1,52 @@
+{
+  "categories": [
+    {
+      "title": "Дуже короткий переказ",
+      "questions": [
+        {
+          "points": 500,
+          "type": "text",
+          "content": "Назвіть автора «Кобзаря».",
+          "answer": "Тарас Шевченко"
+        },
+        {
+          "points": 1000,
+          "type": "image",
+          "content": "https://example.com/memes/drake.jpg",
+          "hint": "Відомий мем з репером",
+          "answer": "Мем з Дрейком (ні / так)"
+        },
+        {
+          "points": 1500,
+          "type": "video",
+          "content": "https://example.com/videos/movie_clip.mp4",
+          "answer": "Матриця"
+        }
+      ]
+    },
+    {
+      "title": "Історичний роман",
+      "questions": [
+        {
+          "points": 500,
+          "type": "text",
+          "content": "Хто є автором роману «Чорна рада»?",
+          "answer": "Пантелеймон Куліш"
+        },
+        {
+          "points": 1000,
+          "type": "image",
+          "content": "https://upload.wikimedia.org/wikipedia/commons/0/06/Viktor_Kovalyov_%28mid-19th_century%29_Last_Rada_on_Sich.jpg",
+          "hint": "Подія XVII століття",
+          "answer": "Козацька рада"
+        },
+        {
+          "points": 1500,
+          "type": "audio",
+          "content": "https://example.com/audio/song.mp3",
+          "answer": "Ой на горі та й женці жнуть"
+        }
+      ]
+    }
+  ]
+}
