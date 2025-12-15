@@ -4,35 +4,38 @@ import { useParams } from 'react-router-dom';
 const QuestionView = ({ gameState, isHost }) => {
   const { gameId } = useParams();
   const currentQuestion = gameState?.currentQuestion?.question;
+  const currentAnswerer = gameState?.currentAnswerer;
+  const bannedAnswerers = gameState?.bannedAnswerers || [];
+  const myId = gameSocketService.getSocketId();
+  const hasCurrentAnswererField = gameState && Object.prototype.hasOwnProperty.call(gameState, 'currentAnswerer');
+  const isAnswererPresent = Array.isArray(currentAnswerer) ? currentAnswerer.length > 0 : !!currentAnswerer;
+  const canBuzzIn = hasCurrentAnswererField && !bannedAnswerers.includes(myId) && !isAnswererPresent;
 
   if (!currentQuestion) {
     return <div className="text-white text-2xl">Питання не знайдено</div>;
   }
 
-  const handleAcceptAnswer = () => {
-    gameSocketService.correctAnswer(gameId, gameState.currentSelector);
+  const handleBuzzIn = () => {
+    gameSocketService.buzzIn(gameId);
   };
 
-  const handleRejectAnswer = () => {
-    gameSocketService.wrongAnswer(gameId, gameState.currentSelector);
-  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-8 p-8">
-      {/* Питання */}
+  
       <div className="bg-blue-900 p-8 rounded-lg max-w-4xl w-full">
         <div className="text-yellow-400 text-2xl font-bold mb-4">
           {currentQuestion.points} очок
         </div>
         
-        {/* Текст питання */}
+        
         {currentQuestion.text && (
           <div className="text-white text-4xl font-bold text-center mb-4">
             {currentQuestion.text}
           </div>
         )}
         
-        {/* Відображення контенту в залежності від типу */}
+        
         {currentQuestion.type === 'image' ? (
           <div className="flex justify-center">
             <img 
@@ -40,6 +43,11 @@ const QuestionView = ({ gameState, isHost }) => {
               alt="Питання" 
               className="max-w-full max-h-96 rounded-lg"
             />
+            {currentQuestion.text && (
+              <div className="text-white text-4xl font-bold text-center mt-4">
+                {currentQuestion.text}
+              </div>
+            )}
           </div>
         ) : currentQuestion.type === 'video' ? (
           <div className="flex justify-center">
@@ -53,32 +61,31 @@ const QuestionView = ({ gameState, isHost }) => {
           <div className="text-white text-4xl font-bold text-center">
             {currentQuestion.content}
           </div>
+        ) : currentQuestion.type === 'audio' ? (
+          <div className="flex justify-center">
+            <audio
+              src={currentQuestion.content}
+              controls
+              className="max-w-full rounded-lg"
+            />
+            {currentQuestion.text && (
+              <div className="text-white text-4xl font-bold text-center mt-4">
+                {currentQuestion.text}
+              </div>
+            )}
+          </div>
         ) : null}
       </div>
 
-      {/* Кнопки та відповідь для хоста */}
-      {isHost && (
-        <div className="flex flex-col gap-4 items-center">
-          <div className="bg-green-900 p-6 rounded-lg">
-            <div className="text-gray-300 text-sm mb-2">Правильна відповідь:</div>
-            <div className="text-white text-2xl font-bold">{currentQuestion.answer}</div>
-          </div>
-          
-          <div className="flex gap-4">
-            <button
-              onClick={handleAcceptAnswer}
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-colors"
-            >
-              ✓ Зарахувати
-            </button>
-            <button
-              onClick={handleRejectAnswer}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-colors"
-            >
-              ✗ Не зарахувати
-            </button>
-          </div>
-        </div>
+      
+      {!isHost && hasCurrentAnswererField && (
+        <button
+          onClick={handleBuzzIn}
+          disabled={!canBuzzIn}
+          className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-12 py-6 rounded-lg text-2xl font-bold transition-colors"
+        >
+          {isAnswererPresent ? 'Хтось відповідає...' : bannedAnswerers.includes(myId) ? 'Ви вже відповіли неправильно' : '🔔 Відповісти'}
+        </button>
       )}
     </div>
   );

@@ -193,6 +193,20 @@ class GameSocketService extends SimpleEventEmitter {
             this.#socket.emit('wrong_answer', { gameId, playerId });
         }
     }
+
+    buzzIn(gameId) {
+        if (this.#socket.connected) {
+            console.log('Emitting buzz_in:', { gameId });
+            this.#socket.emit('buzz_in', { gameId });
+        }
+    }
+
+    skipQuestion(gameId) {
+        if (this.#socket.connected) {
+            console.log('Emitting skip_question:', { gameId });
+            this.#socket.emit('skip_question', { gameId });
+        }
+    }
 }
 
 export default new GameSocketService();
