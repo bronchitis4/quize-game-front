@@ -14,6 +14,7 @@
           "type": "image",
           "content": "https://example.com/memes/drake.jpg",
           "hint": "Відомий мем з репером",
+          "text": "Що зображено на цьому мемі?",
           "answer": "Мем з Дрейком (ні / так)"
         },
         {
@@ -25,12 +26,13 @@
       ]
     },
     {
-      "title": "Історичний роман",
+      "title": "Ахуй",
       "questions": [
         {
-          "points": 500,
-          "type": "text",
-          "content": "Хто є автором роману «Чорна рада»?",
+          "points": 50,
+          "type": "video",
+          "content": "https://drive.google.com/file/d/1-YXI1HC17zkG_jzZjOkv5Dmv_JjVVSPp/view",
+          "text": "Що за бригада на відосі?",
           "answer": "Пантелеймон Куліш"
         },
         {

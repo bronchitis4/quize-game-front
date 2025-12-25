@@ -18,6 +18,42 @@ export const useWebSocket = () => {
         gameSocketService.joinLobby(gameId, playerName, avatarUrl, password);
     }, []);
 
+    const loadPackage = useCallback((gameId, packageData) => {
+        gameSocketService.loadPackage(gameId, packageData);
+    }, []);
+
+    const startGame = useCallback((gameId) => {
+        gameSocketService.startGame(gameId);
+    }, []);
+
+    const selectQuestion = useCallback((gameId, categoryIndex, questionIndex) => {
+        gameSocketService.selectQuestion(gameId, categoryIndex, questionIndex);
+    }, []);
+
+    const buzzIn = useCallback((gameId) => {
+        gameSocketService.buzzIn(gameId);
+    }, []);
+
+    const correctAnswer = useCallback((gameId, playerId) => {
+        gameSocketService.correctAnswer(gameId, playerId);
+    }, []);
+
+    const wrongAnswer = useCallback((gameId, playerId) => {
+        gameSocketService.wrongAnswer(gameId, playerId);
+    }, []);
+
+    const skipQuestion = useCallback((gameId) => {
+        gameSocketService.skipQuestion(gameId);
+    }, []);
+
+    const nextQuestion = useCallback((gameId) => {
+        gameSocketService.nextQuestion(gameId);
+    }, []);
+
+    const getSocketId = useCallback(() => {
+        return gameSocketService.getSocketId();
+    }, []);
+
     useEffect(() => {
         const handleConnectionStatus = (status) => {
             setIsConnected(status);
@@ -78,7 +114,16 @@ export const useWebSocket = () => {
         gameId,
         loading,
         createGame,
-        joinGame
+        joinGame,
+        loadPackage,
+        startGame,
+        selectQuestion,
+        buzzIn,
+        correctAnswer,
+        wrongAnswer,
+        skipQuestion,
+        nextQuestion,
+        getSocketId
     };
 };
 
