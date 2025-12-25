@@ -1,0 +1,10 @@
+services:
+  - type: static
+    name: quize-game-front
+    env: static
+    buildCommand: npm run build
+    publishPath: ./dist 
+    routing:
+      - source: /[^.]*
+        destination: /index.html
+        type: rewrite
