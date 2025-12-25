@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 import { useWebSocket } from './hooks/createConnectionHook';
 import CreateGameForm from './components/forms/createGameForm.jsx';
-import JoinGameForm from './components/forms/joinGameForm.jsx';
+import JoinGameForm from './components/forms/JoinGameForm.jsx';
 import JoinByLinkForm from './components/forms/JoinByLinkForm.jsx';
 import GamePage from './pages/GamePage';
 
