@@ -1,4 +1,72 @@
-# React + Vite
+# Квіз-гра
+
+Інтерактивна квіз-гра на базі React + Vite з можливістю гри в реальному часі через WebSocket.
+
+## Можливості
+
+- ✨ Створення гри з паролем
+- 🔗 **Приєднання до гри по посиланню**
+- 🎮 Інтерактивна ігрова дошка
+- 👥 Підтримка множини гравців
+- 📦 Завантаження власних паків питань
+- 🏆 Підрахунок очків і підсумковий подіум
+
+## Встановлення
+
+```bash
+npm install
+```
+
+## Запуск
+
+```bash
+npm run dev
+```
+
+## Як грати
+
+### Створення гри
+
+1. Натисніть "Створити гру"
+2. Введіть своє ім'я та завантажте аватар
+3. Встановіть пароль для гри (мін. 4 символи)
+4. Після створення ви потрапите до лобі
+
+### Приєднання до гри
+
+#### Спосіб 1: По посиланню (рекомендовано)
+
+1. Хост натискає кнопку "Посилання-запрошення" в лобі
+2. Посилання автоматично копіюється в буфер обміну
+3. Гравець відкриває це посилання у браузері
+4. Вводить своє ім'я та завантажує аватар
+5. Автоматично приєднується до гри
+
+#### Спосіб 2: Ручне введення
+
+1. Натисніть "Приєднатися до гри"
+2. Введіть своє ім'я та завантажте аватар
+3. Введіть ID гри та пароль від хоста
+4. Приєднайтеся до гри
+
+### Управління грою (Хост)
+
+1. Завантажте пак питань (JSON файл)
+2. Натисніть "Розпочати гру"
+3. Гравці вибирають питання
+4. Хост зараховує або не зараховує відповіді
+
+## Технології
+
+- React 19.2
+- Vite
+- React Router DOM
+- Socket.IO Client
+- Tailwind CSS
+
+---
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -7,10 +75,3 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

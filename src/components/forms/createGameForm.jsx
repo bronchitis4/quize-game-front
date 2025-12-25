@@ -43,40 +43,40 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
 
   if (step === 'profile') {
     return (
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-sm">
-          <h2 className="text-2xl font-bold mb-4">Створити гру</h2>
-          <form onSubmit={handleProfileSubmit} className="space-y-3">
+      <div className="flex items-center justify-center min-h-screen p-6 bg-[#0f0f0f]">
+        <div className="w-full max-w-md flex flex-col gap-4 items-center bg-[#1a1a1a] p-8 rounded-lg border border-[#2a2a2a] animate-fade-in">
+          <h2 className="text-2xl font-bold mb-2 text-white">Створити гру</h2>
+           {avatarPreview && (
+              <div className="text-center flex justify-center">
+                <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
+              </div>
+            )}
+          <form onSubmit={handleProfileSubmit} className="space-y-4 w-full">
             <div>
-              <label className="block text-sm font-bold mb-1">Ім'я:</label>
+              <label className="block text-sm font-bold mb-2 text-[#e0e0e0]">Ім'я:</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-4 py-3 bg-[#2a2a2a] border border-[#3a3a3a] rounded text-white focus:outline-none focus:border-[#0d7bda]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-bold mb-1">Аватар:</label>
+              <label className="block text-sm font-bold mb-2 text-[#e0e0e0]">Аватар:</label>
               <input
                 type="file"
                 id="avatar"
                 onChange={handleAvatarChange}
                 accept="image/*"
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-4 py-3 bg-[#2a2a2a] border border-[#3a3a3a] rounded text-[#e0e0e0] focus:outline-none focus:border-[#0d7bda]"
               />
             </div>
 
-            {avatarPreview && (
-              <div className="text-center">
-                <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto" />
-              </div>
-            )}
 
-            {error && <div className="text-red-600 text-sm p-2 border border-red-300 rounded bg-red-50">{error}</div>}
+            {error && <div className="text-red-400 text-sm p-2 border border-red-900 rounded bg-red-950">{error}</div>}
 
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+            <button type="submit" className="w-full bg-[#0d7bda] hover:bg-[#0a66b8] text-white py-3 rounded transition-all duration-300 hover:scale-105 hover:shadow-lg">
               Далі
             </button>
           </form>
@@ -86,36 +86,36 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4">Пароль гри</h2>
-        <form onSubmit={handleCreateGame} className="space-y-3">
-          <div className="text-center mb-4">
+    <div className="flex items-center justify-center min-h-screen p-6 bg-[#0f0f0f]">
+      <div className="w-full max-w-md flex flex-col flex-center gap-4 bg-[#1a1a1a] p-8 rounded-lg border border-[#2a2a2a]">
+        <h2 className="text-2xl font-bold mb-2 text-center text-white">Пароль гри</h2>
+        <form onSubmit={handleCreateGame} className="space-y-4 w-full">
+          <div className="text-center mb-4 flex items-center flex-col">
             {avatarPreview && (
-              <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full mx-auto mb-2" />
+              <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-[#0d7bda]" />
             )}
-            <p className="font-bold">{name}</p>
+            <p className="font-bold text-white">{name}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-bold mb-1">Пароль (мін. 4 символи):</label>
+            <label className="block text-sm font-bold mb-2 text-[#e0e0e0]">Пароль:</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
+              className="w-full px-4 py-3 bg-[#2a2a2a] border border-[#3a3a3a] rounded text-white focus:outline-none focus:border-[#0d7bda]"
             />
           </div>
 
-          {error && <div className="text-red-600 text-sm p-2 border border-red-300 rounded bg-red-50">{error}</div>}
+          {error && <div className="text-red-400 text-sm p-2 border border-red-900 rounded bg-red-950">{error}</div>}
 
-          <button type="submit" disabled={wsLoading} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-2 rounded">
+          <button type="submit" disabled={wsLoading} className="w-full bg-[#0d7bda] hover:bg-[#0a66b8] disabled:bg-[#3a3a3a] text-white py-3 rounded transition-colors">
             {wsLoading ? 'Створення...' : 'Захостити гру'}
           </button>
           <button
             type="button"
             onClick={() => setStep('profile')}
-            className="w-full bg-gray-300 hover:bg-gray-400 py-2 rounded"
+            className="w-full bg-[#2a2a2a] hover:bg-[#3a3a3a] py-3 rounded text-white transition-colors border border-[#3a3a3a]"
           >
             Назад
           </button>

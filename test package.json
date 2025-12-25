@@ -1,0 +1,299 @@
+{
+  "categories": [
+    {
+      "title": "Вгадай трек",
+      "questions": [
+        {
+          "points": 100,
+          "type": "audio",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/music/1%20sound.mp3",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/music/1%20image.jpg",
+            "text": "Ванька встанька",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/1%20back.mp3"
+          }
+        },
+        {
+          "points": 250,
+          "type": "audio",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/music/2%20sound.mp3",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/music/2%20image.png",
+            "text": "Бляцкая натура...",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/2%20back.mp3"
+          }
+        },
+        {
+          "points": 500,
+          "type": "audio",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/music/3%20sound.mp3",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/music/3%20image.png",
+            "text": "Пошла ти нахуй блять",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/3%20back.mp3"
+          }
+        },
+        {
+          "points": 500,
+          "type": "audio",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/music/4%20sound.mp3",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/music/4%20image.png",
+            "text": "Шуба",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/4%20back.mp3"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Хто на фото?",
+      "questions": [
+        {
+          "points": 100,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/1%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/1%20full.png",
+            "text": "Юра АКА півная мамба",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 250,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/2%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/2%20full.png",
+            "text": "Лілька",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/2%20back.mp3"
+          }
+        },
+        {
+          "points": 300,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/3%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/3%20full.png",
+            "text": "Назар Електрик",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 350,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/4%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/4%20full.png",
+            "text": "Дмитро",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 400,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/5%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/5%20full.png",
+            "text": "Соломія",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 450,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/6%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/6%20full.png",
+            "text": "Ігор останній вечір...",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 500,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/7%20piece.png",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/whats%20in%20the%20picture/7%20full.png",
+            "text": "Пара",
+            "backgroundMusic": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Пиво",
+      "questions": [
+        {
+          "points": 100,
+          "type": "text",
+          "content": "Українська відповідь бельгійському Кріку, про яку Бельгія благала не дізнаватися. Напій справжніх естетів біля під’їзду. Солоденьке, міцненьке і гарантує, що зранку ти будеш ненавидіти все червоне.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/1%20video.mp4",
+            "text": "титан",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 150,
+          "type": "text",
+          "content": "Його ніколи не купують по одній пляшці, і майже ніколи — у склі. Це пальне для суворих чоловічих розмов на лавочці, коли життя дало тріщину. Воно не про смак, воно про ефективність: дешево, сердито і вирубає систему за 20 хвилин. Якщо ти бачиш людину з цим снарядом у руці, краще не питай у неї “котра година”, бо почнеться розповідь за життя.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/2%20video.mp4",
+            "text": "арсенал",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 200,
+          "type": "text",
+          "content": "Це не пиво, це рідкий хаос. Напій, який одночасно тисне на газ і на гальма, від чого твій “двигун” починає троїти. Його беруть, коли хочуть повернути свій 2007-й або просто шукають пригод. Головна прикмета споживача: чорний одяг, сумні очі й шалена тахікардія.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/3%20video.mp4",
+            "text": "рево",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 250,
+          "type": "text",
+          "content": "Його п'ють не ковтками, а “залпом”, бо воно заходить надто легко. Це пастка: твій мозок думає, що ти п'єш звичайну газовану воду, а твої ноги через годину відмовляються йти рівно. Після трьох пляшок у роті таке відчуття, наче ти зжував пачку льодяників разом з обгорткою.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/4%20video.mp4",
+            "text": "гараж",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 300,
+          "type": "text",
+          "content": "Цей експонат — найкращий друг студентки, яка хоче відчути себе світською левицею, але має лише 40 гривень. Це намагання запхати “дольче віта” в алюмінієву банку. Його п'ють, відставивши мізинчик, навіть якщо сидять на бордюрі. Пахне полуницею і розчаруванням у принцах.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/5%20video.mp4",
+            "text": "фрагуліно",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 350,
+          "type": "text",
+          "content": "На етикетці намальована горда чорна пташка, але парадокс у тому, що після вживання 1.5 літра цього напою ти не літаєш, а повзаєш. Його називають “рубіновим”, хоча цей колір більше нагадує твої очі наступного ранку. Це напій для тих, хто хоче злитися з природою... обличчям у траву.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/6%20video.mp4",
+            "text": "тетерів",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 400,
+          "type": "text",
+          "content": "Назва цього напою обіцяє тобі політ і героїчну висадку, але зазвичай парашут не розкривається, і ти просто падаєш обличчям у салат. Це 8% рідкої хоробрості для диванних військ. Він діє як диверсійна група: заходить тихо, а потім підриває твій вестибулярний апарат зсередини.",
+          "answer": {
+            "type": "video",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/drink/7%20video.mp4",
+            "text": "десант",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 450,
+          "type": "text",
+          "content": "Ця банка має містичну здатність притягувати “консультантів”. Ти стоїш в АТБ, просто тупиш у холодильник, і тут з-за спини виринає місцевий мужичок. Він тицяє пальцем у цього короля на етикетці, дихає тобі в вухо “вчорашнім” і каже: “Чуєш, братан, бери це! Це ахуєнне пиво, я тобі отвічаю! Натуральне!”. І ти береш. Не тому, що хотів, а тому що цей авторитетний відгук не залишив тобі вибору.",
+          "answer": {
+            "type": "video",
+            "content": "",
+            "text": "германаріч",
+            "backgroundMusic": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "Ряснянський гурман",
+      "questions": [
+        {
+          "points": 100,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/1%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони з кєчупом*",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 150,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/2%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони ля помодоро",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 200,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/3%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони “Пене араб’ята” (томатна паста ака кєчуп)",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 250,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/4%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони з кєчупом",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 300,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/5%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони ля помодоро",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 350,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/gourmet%20category/6%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "макарони по флотськи з тушонкою (в рецепті з кєчупом)",
+            "backgroundMusic": ""
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -23,14 +23,16 @@ class SimpleEventEmitter {
 class GameSocketService extends SimpleEventEmitter {
     #socket;
     #gameState = null;
-    #SERVER_URL = 'ws://localhost:3000';
+    #SERVER_URL = import.meta.env.VITE_SERVER_URL || 'https://quize-game-backend.onrender.com';
     
     constructor() {
         super();
         
+        console.log('Connecting to server:', this.#SERVER_URL);
+        
         this.#socket = io(this.#SERVER_URL, {
             autoConnect: false,
-            transports: ['polling'],
+            transports: ['polling', 'websocket'],
             reconnection: true,
             reconnectionDelay: 500,
             reconnectionDelayMax: 2000,
@@ -147,9 +149,10 @@ class GameSocketService extends SimpleEventEmitter {
         }
     }
     
-    nextQuestion() {
+    nextQuestion(gameId) {
         if (this.#socket.connected) {
-            this.#socket.emit('next_question');
+            console.log('Emitting next_question:', { gameId });
+            this.#socket.emit('next_question', { gameId });
         }
     }
     
