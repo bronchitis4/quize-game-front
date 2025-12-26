@@ -8,14 +8,65 @@ export const useWebSocket = () => {
     const [loading, setLoading] = useState(false);
     const [gameId, setGameId] = useState(null);
 
+    const showToast = (msg) => {
+        try {
+            const id = `toast-${Date.now()}`;
+            const el = document.createElement('div');
+            el.id = id;
+            el.textContent = msg;
+            Object.assign(el.style, {
+                position: 'fixed',
+                bottom: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.85)',
+                color: 'white',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                zIndex: 9999,
+                fontSize: '14px',
+            });
+            document.body.appendChild(el);
+            setTimeout(() => {
+                el.style.transition = 'opacity 300ms';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 300);
+            }, 3000);
+        } catch (e) {
+            try { alert(msg); } catch (_) { /* noop */ }
+        }
+    };
+
     const createGame = useCallback(async (playerName, avatarUrl, password) => {
         setLoading(true);
-        await gameSocketService.createLobby(playerName, avatarUrl, password);
+        setError(null);
+        try {
+            const ack = await gameSocketService.createLobby(playerName, avatarUrl, password);
+            setLoading(false);
+            return ack;
+        } catch (err) {
+            const message = 'Помилка при створенні гри: ' + (err?.message || err);
+            setError(message);
+            setLoading(false);
+            showToast(message);
+            throw err;
+        }
     }, []);
 
     const joinGame = useCallback(async (playerName, avatarUrl, gameId, password) => {
         setLoading(true);
-        await gameSocketService.joinLobby(gameId, playerName, avatarUrl, password);
+        setError(null);
+        try {
+            const ack = await gameSocketService.joinLobby(gameId, playerName, avatarUrl, password);
+            setLoading(false);
+            return ack;
+        } catch (err) {
+            const message = 'Помилка при приєднанні: ' + (err?.message || err);
+            setError(message);
+            setLoading(false);
+            showToast(message);
+            throw err;
+        }
     }, []);
 
     const loadPackage = useCallback(async (gameId, packageData) => {
