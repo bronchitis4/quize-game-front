@@ -50,9 +50,10 @@ export const useWebSocket = () => {
         await gameSocketService.nextQuestion(gameId);
     }, []);
 
-    const getSocketId = useCallback(async () => {
-        return await gameSocketService.getSocketId();
+    const getSocketId = useCallback(() => {
+        return gameSocketService.getSocketId();
     }, []);
+
 
     useEffect(() => {
         const handleConnectionStatus = (status) => {
