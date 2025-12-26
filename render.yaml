@@ -1,0 +1,15 @@
+services:
+  - type: static
+    name: quize-game-front
+    env: static
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    publishPath: ./dist
+    envVars:
+      - key: NODE_ENV
+        value: production
+    routing:
+      - source: /[^.]*
+        destinaton: /index.html
+        type: rewrite
