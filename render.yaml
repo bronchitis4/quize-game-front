@@ -11,5 +11,5 @@ services:
         value: production
     routing:
       - source: /[^.]*
-        destinaton: /index.html
+        destination: /index.html
         type: rewrite
