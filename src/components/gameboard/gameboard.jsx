@@ -11,7 +11,7 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
   return (
     <div className="w-full h-full min-w-0 bg-black p-1 screen900:p-4 lg:p-4 xl:p-6 2xl:p-6">
       <div
-        className="grid gap-1 screen900:gap-4 lg:gap-4 xl:gap-6 w-full h-full"
+        className="grid gap-1 screen900:gap-4 w-full h-full"
         style={{
           gridTemplateColumns: `minmax(100px,180px) repeat(${maxQuestions}, minmax(60px,1fr))`,
           gridTemplateRows: `repeat(${categories.length}, minmax(60px,1fr))`,
