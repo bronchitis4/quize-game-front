@@ -83,12 +83,10 @@ class GameSocketService extends SimpleEventEmitter {
     });
   }
 
-  // helper: дочекатися 1 раз події
   #once(event) {
     return new Promise((resolve) => this.#socket.once(event, resolve));
   }
 
-  // helper: await підключення (без setTimeout)
   async connect({ timeoutMs = 10000 } = {}) {
     if (this.#socket.connected) return;
 
@@ -98,7 +96,6 @@ class GameSocketService extends SimpleEventEmitter {
       setTimeout(() => reject(new Error(`Socket connect timeout after ${timeoutMs}ms`)), timeoutMs)
     );
 
-    // якщо впаде connect_error — відразу ріжемо
     const connectErrorPromise = new Promise((_, reject) =>
       this.#socket.once('connect_error', (err) => reject(err))
     );
@@ -106,14 +103,12 @@ class GameSocketService extends SimpleEventEmitter {
     await Promise.race([this.#once('connect'), connectErrorPromise, timeoutPromise]);
   }
 
-  // helper: emit з ack як Promise
   async #emitWithAck(event, payload, { timeoutMs = 10000 } = {}) {
     await this.connect({ timeoutMs });
 
     return await new Promise((resolve, reject) => {
       const t = setTimeout(() => reject(new Error(`Ack timeout for "${event}" after ${timeoutMs}ms`)), timeoutMs);
 
-      // socket.io: останній аргумент — ack callback
       this.#socket.emit(event, payload, (ack) => {
         clearTimeout(t);
         resolve(ack);
@@ -131,9 +126,6 @@ class GameSocketService extends SimpleEventEmitter {
     }
   }
 
-  // =========================
-  // LOBBY
-  // =========================
   async createLobby(playerName, avatarUrl, password) {
     console.log('Emitting create_game');
 
@@ -161,9 +153,6 @@ class GameSocketService extends SimpleEventEmitter {
     return ack;
   }
 
-  // =========================
-  // GAME ACTIONS (без ack)
-  // =========================
   async sendAnswer(answerId) {
     await this.connect();
     this.#socket.emit('send_answer', { answerId });
