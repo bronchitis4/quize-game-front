@@ -4,20 +4,19 @@ class SimpleEventEmitter {
   constructor() {
     this.listeners = {};
   }
-
   on(event, callback) {
     if (!this.listeners[event]) this.listeners[event] = [];
     this.listeners[event].push(callback);
   }
-
   off(event, callback) {
-    if (!this.listeners[event]) return;
-    this.listeners[event] = this.listeners[event].filter((cb) => cb !== callback);
+    if (this.listeners[event]) {
+      this.listeners[event] = this.listeners[event].filter((cb) => cb !== callback);
+    }
   }
-
   emit(event, data) {
-    if (!this.listeners[event]) return;
-    this.listeners[event].forEach((cb) => cb(data));
+    if (this.listeners[event]) {
+      this.listeners[event].forEach((callback) => callback(data));
+    }
   }
 }
 
@@ -25,7 +24,6 @@ class GameSocketService extends SimpleEventEmitter {
   #socket;
   #gameState = null;
   #SERVER_URL = import.meta.env.VITE_SERVER_URL || 'https://quize-game-backend.onrender.com';
-  #connectPromise = null;
 
   constructor() {
     super();
@@ -39,7 +37,7 @@ class GameSocketService extends SimpleEventEmitter {
       reconnectionDelay: 500,
       reconnectionDelayMax: 2000,
       reconnectionAttempts: Infinity,
-      timeout: 25000,
+      timeout: 10000,
     });
 
     this.#setupListeners();
@@ -57,7 +55,7 @@ class GameSocketService extends SimpleEventEmitter {
     });
 
     this.#socket.on('connect_error', (error) => {
-      console.error('Connection error:', error?.message || error, error);
+      console.error('Connection error:', error);
     });
 
     this.#socket.on('game_created', (data) => {
@@ -85,64 +83,40 @@ class GameSocketService extends SimpleEventEmitter {
     });
   }
 
-  async #ensureConnected() {
+  // helper: дочекатися 1 раз події
+  #once(event) {
+    return new Promise((resolve) => this.#socket.once(event, resolve));
+  }
+
+  // helper: await підключення (без setTimeout)
+  async connect({ timeoutMs = 10000 } = {}) {
     if (this.#socket.connected) return;
 
-    if (this.#connectPromise) {
-      await this.#connectPromise;
-      return;
-    }
+    this.#socket.connect();
 
-    this.#connectPromise = new Promise((resolve, reject) => {
-      const onConnect = () => {
-        cleanup();
-        resolve();
-      };
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`Socket connect timeout after ${timeoutMs}ms`)), timeoutMs)
+    );
 
-      const onError = (err) => {
-        cleanup();
-        reject(err);
-      };
+    // якщо впаде connect_error — відразу ріжемо
+    const connectErrorPromise = new Promise((_, reject) =>
+      this.#socket.once('connect_error', (err) => reject(err))
+    );
 
-      const cleanup = () => {
-        this.#socket.off('connect', onConnect);
-        this.#socket.off('connect_error', onError);
-        this.#connectPromise = null;
-      };
-
-      this.#socket.on('connect', onConnect);
-      this.#socket.on('connect_error', onError);
-
-      this.#socket.connect();
-    });
-
-    await this.#connectPromise;
+    await Promise.race([this.#once('connect'), connectErrorPromise, timeoutPromise]);
   }
 
-  async connect() {
-    try {
-      await this.#ensureConnected();
-      return true;
-    } catch (e) {
-      console.error('Failed to connect:', e?.message || e);
-      return false;
-    }
-  }
+  // helper: emit з ack як Promise
+  async #emitWithAck(event, payload, { timeoutMs = 10000 } = {}) {
+    await this.connect({ timeoutMs });
 
-  createLobby(playerName, avatarUrl, password) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting create_game');
-      this.#socket.emit('create_game', { playerName, avatarUrl, password }, (ack) => {
-        console.log('Server acknowledged create_game:', ack);
-      });
-    });
-  }
+    return await new Promise((resolve, reject) => {
+      const t = setTimeout(() => reject(new Error(`Ack timeout for "${event}" after ${timeoutMs}ms`)), timeoutMs);
 
-  joinLobby(gameId, playerName, avatarUrl, password) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting join_game');
-      this.#socket.emit('join_game', { gameId, playerName, avatarUrl, password }, (ack) => {
-        console.log('Server acknowledged join_game:', ack);
+      // socket.io: останній аргумент — ack callback
+      this.#socket.emit(event, payload, (ack) => {
+        clearTimeout(t);
+        resolve(ack);
       });
     });
   }
@@ -152,85 +126,105 @@ class GameSocketService extends SimpleEventEmitter {
   }
 
   disconnect() {
-    if (this.#socket.connected) this.#socket.disconnect();
+    if (this.#socket.connected) {
+      this.#socket.disconnect();
+    }
   }
 
-  sendAnswer(answerId) {
-    return this.#ensureConnected().then(() => {
-      this.#socket.emit('send_answer', { answerId });
+  // =========================
+  // LOBBY
+  // =========================
+  async createLobby(playerName, avatarUrl, password) {
+    console.log('Emitting create_game');
+
+    const ack = await this.#emitWithAck('create_game', {
+      playerName,
+      avatarUrl,
+      password,
     });
+
+    console.log('Server acknowledged create_game:', ack);
+    return ack;
   }
 
-  startGame(gameId) {
-    return this.#ensureConnected().then(() => {
-      this.#socket.emit('start_game', { gameId });
+  async joinLobby(gameId, playerName, avatarUrl, password) {
+    console.log('Emitting join_game');
+
+    const ack = await this.#emitWithAck('join_game', {
+      gameId,
+      playerName,
+      avatarUrl,
+      password,
     });
+
+    console.log('Server acknowledged join_game:', ack);
+    return ack;
   }
 
-  nextQuestion(gameId) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting next_question:', { gameId });
-      this.#socket.emit('next_question', { gameId });
-    });
+  // =========================
+  // GAME ACTIONS (без ack)
+  // =========================
+  async sendAnswer(answerId) {
+    await this.connect();
+    this.#socket.emit('send_answer', { answerId });
   }
 
-  getState() {
-    return this.#ensureConnected().then(() => {
-      this.#socket.emit('get_game_state');
-    });
+  async startGame(gameId) {
+    await this.connect();
+    this.#socket.emit('start_game', { gameId });
   }
 
-  leaveGame() {
-    return this.#ensureConnected().then(() => {
-      this.#socket.emit('leave_game');
-    });
+  async nextQuestion(gameId) {
+    await this.connect();
+    console.log('Emitting next_question:', { gameId });
+    this.#socket.emit('next_question', { gameId });
   }
 
-  loadPackage(gameId, packageData) {
-    return this.#ensureConnected().then(() => {
-      const packageArray = packageData?.categories || packageData;
-      console.log('Emitting load_package with data:', { gameId, package: packageArray });
-      this.#socket.emit('load_package', { gameId, package: packageArray });
-    });
+  async getState() {
+    await this.connect();
+    this.#socket.emit('get_game_state');
   }
 
-  selectQuestion(gameId, categoryIndex, questionIndex) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting select_question:', { gameId, categoryIndex, questionIndex });
-      this.#socket.emit('select_question', { gameId, categoryIndex, questionIndex });
-    });
+  async leaveGame() {
+    await this.connect();
+    this.#socket.emit('leave_game');
   }
 
-  correctAnswer(gameId, playerId) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting correct_answer:', { gameId, playerId });
-      this.#socket.emit('correct_answer', { gameId, playerId });
-    });
+  async loadPackage(gameId, packageData) {
+    await this.connect();
+    const packageArray = packageData.categories || packageData;
+    console.log('Emitting load_package with data:', { gameId, package: packageArray });
+    this.#socket.emit('load_package', { gameId, package: packageArray });
   }
 
-  wrongAnswer(gameId, playerId) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting wrong_answer:', { gameId, playerId });
-      this.#socket.emit('wrong_answer', { gameId, playerId });
-    });
+  async selectQuestion(gameId, categoryIndex, questionIndex) {
+    await this.connect();
+    console.log('Emitting select_question:', { gameId, categoryIndex, questionIndex });
+    this.#socket.emit('select_question', { gameId, categoryIndex, questionIndex });
   }
 
-  buzzIn(gameId) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting buzz_in:', { gameId });
-      this.#socket.emit('buzz_in', { gameId });
-    });
+  async correctAnswer(gameId, playerId) {
+    await this.connect();
+    console.log('Emitting correct_answer:', { gameId, playerId });
+    this.#socket.emit('correct_answer', { gameId, playerId });
   }
 
-  skipQuestion(gameId) {
-    return this.#ensureConnected().then(() => {
-      console.log('Emitting skip_question:', { gameId });
-      this.#socket.emit('skip_question', { gameId });
-    });
+  async wrongAnswer(gameId, playerId) {
+    await this.connect();
+    console.log('Emitting wrong_answer:', { gameId, playerId });
+    this.#socket.emit('wrong_answer', { gameId, playerId });
   }
 
-  getCachedState() {
-    return this.#gameState;
+  async buzzIn(gameId) {
+    await this.connect();
+    console.log('Emitting buzz_in:', { gameId });
+    this.#socket.emit('buzz_in', { gameId });
+  }
+
+  async skipQuestion(gameId) {
+    await this.connect();
+    console.log('Emitting skip_question:', { gameId });
+    this.#socket.emit('skip_question', { gameId });
   }
 }
 

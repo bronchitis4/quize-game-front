@@ -8,50 +8,50 @@ export const useWebSocket = () => {
     const [loading, setLoading] = useState(false);
     const [gameId, setGameId] = useState(null);
 
-    const createGame = useCallback((playerName, avatarUrl, password) => {
+    const createGame = useCallback(async (playerName, avatarUrl, password) => {
         setLoading(true);
-        gameSocketService.createLobby(playerName, avatarUrl, password);
+        await gameSocketService.createLobby(playerName, avatarUrl, password);
     }, []);
 
-    const joinGame = useCallback((playerName, avatarUrl, gameId, password) => {
+    const joinGame = useCallback(async (playerName, avatarUrl, gameId, password) => {
         setLoading(true);
-        gameSocketService.joinLobby(gameId, playerName, avatarUrl, password);
+        await gameSocketService.joinLobby(gameId, playerName, avatarUrl, password);
     }, []);
 
-    const loadPackage = useCallback((gameId, packageData) => {
-        gameSocketService.loadPackage(gameId, packageData);
+    const loadPackage = useCallback(async (gameId, packageData) => {
+        await gameSocketService.loadPackage(gameId, packageData);
     }, []);
 
-    const startGame = useCallback((gameId) => {
-        gameSocketService.startGame(gameId);
+    const startGame = useCallback(async (gameId) => {
+        await gameSocketService.startGame(gameId);
     }, []);
 
-    const selectQuestion = useCallback((gameId, categoryIndex, questionIndex) => {
-        gameSocketService.selectQuestion(gameId, categoryIndex, questionIndex);
+    const selectQuestion = useCallback(async (gameId, categoryIndex, questionIndex) => {
+        await gameSocketService.selectQuestion(gameId, categoryIndex, questionIndex);
     }, []);
 
-    const buzzIn = useCallback((gameId) => {
-        gameSocketService.buzzIn(gameId);
+    const buzzIn = useCallback(async (gameId) => {
+        await gameSocketService.buzzIn(gameId);
     }, []);
 
-    const correctAnswer = useCallback((gameId, playerId) => {
-        gameSocketService.correctAnswer(gameId, playerId);
+    const correctAnswer = useCallback(async (gameId, playerId) => {
+        await gameSocketService.correctAnswer(gameId, playerId);
     }, []);
 
-    const wrongAnswer = useCallback((gameId, playerId) => {
-        gameSocketService.wrongAnswer(gameId, playerId);
+    const wrongAnswer = useCallback(async (gameId, playerId) => {
+        await gameSocketService.wrongAnswer(gameId, playerId);
     }, []);
 
-    const skipQuestion = useCallback((gameId) => {
-        gameSocketService.skipQuestion(gameId);
+    const skipQuestion = useCallback(async (gameId) => {
+        await gameSocketService.skipQuestion(gameId);
     }, []);
 
-    const nextQuestion = useCallback((gameId) => {
-        gameSocketService.nextQuestion(gameId);
+    const nextQuestion = useCallback(async (gameId) => {
+        await gameSocketService.nextQuestion(gameId);
     }, []);
 
-    const getSocketId = useCallback(() => {
-        return gameSocketService.getSocketId();
+    const getSocketId = useCallback(async () => {
+        return await gameSocketService.getSocketId();
     }, []);
 
     useEffect(() => {
@@ -95,7 +95,9 @@ export const useWebSocket = () => {
         gameSocketService.on('state_update', handleStateUpdate);
         gameSocketService.on('game_started', handleGameStarted);
 
-        gameSocketService.connect();
+        (async () => {
+            await gameSocketService.connect();
+        })();
 
         return () => {
             gameSocketService.off('connection_status', handleConnectionStatus);
