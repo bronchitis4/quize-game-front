@@ -22,8 +22,8 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
         {categories.map((category, catIndex) => (
           <div key={catIndex} className="contents">
             {/* Category name */}
-            <div className="bg-[#18181b] border-2 border-[#232324] flex items-center justify-center p-1 screen900:p-4 rounded-lg shadow-md">
-              <span className="text-white font-bold text-sm screen900:text-2xl lg:text-3xl xl:text-4xl text-center uppercase leading-tight">{category.title}</span>
+              <div className="bg-[#18181b] border-2 border-[#232324] flex items-center justify-center p-1 screen900:p-4 rounded-lg shadow-md">
+              <span className="text-white font-bold text-sm screen900:text-2xl text-center uppercase leading-tight">{category.title}</span>
             </div>
             
             {/* Question buttons */}
@@ -46,7 +46,7 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
                   disabled={question?.answered || !isHost}
                   onClick={() => handleQuestionSelect(catIndex, qIndex)}
                 >
-                  <span className="text-yellow-300 font-bold text-xl screen900:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">{question.points}</span>
+                  <span className="text-yellow-300 font-bold text-xl screen900:text-4xl 2xl:text-7xl">{question.points}</span>
                 </button>
               );
             })}

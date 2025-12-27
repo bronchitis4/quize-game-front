@@ -88,7 +88,7 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
             }}
           >
             {currentQuestion.text && (
-              <div className="text-black text-5xl font-bold text-center bg-white bg-opacity-70 px-8 py-4 rounded-lg shadow-lg">
+              <div className="text-black text-2xl screen900:text-3xl 2xl:text-4xl font-bold text-center bg-white bg-opacity-70 px-8 py-4 rounded-lg shadow-lg">
                 {currentQuestion.text}
               </div>
             )}
@@ -101,14 +101,14 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
               className="w-full h-full rounded-lg"
             />
             {currentQuestion.text && (
-              <div className="text-white text-5xl font-bold text-center mt-6">
+              <div className="text-white text-2xl screen900:text-3xl 2xl:text-4xl font-bold text-center mt-6">
                 {currentQuestion.text}
               </div>
             )}
           </div>
         
         ) : currentQuestion.type === 'text' && !currentQuestion.text ? (
-          <div className="text-white text-2xl screen900:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-center flex-1 flex items-center justify-center p-4 screen900:p-8 px-4 break-words whitespace-pre-wrap">
+          <div className="text-white text-2xl screen900:text-3xl 2xl:text-4xl font-bold text-center flex-1 flex items-center justify-center p-4 screen900:p-8 px-4 break-words whitespace-pre-wrap">
             {currentQuestion.content}
           </div>
         ) : currentQuestion.type === 'audio' ? (
@@ -121,19 +121,19 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
                 className="hidden"
               />
               {countdown !== null && countdown > 0 ? (
-                <div className="text-white text-9xl font-bold animate-pulse">
+                <div className="text-white text-5xl screen900:text-6xl 2xl:text-5xl font-bold animate-pulse">
                   {countdown}
                 </div>
               ) : (
                 <div className="flex items-center justify-center">
-                  {isPlaying ? (
+                      {isPlaying ? (
                     <div className="flex gap-4">
                       <div className="w-4 h-16 bg-[#0d7bda] animate-pulse rounded"></div>
                       <div className="w-4 h-16 bg-[#0d7bda] animate-pulse rounded" style={{ animationDelay: '0.2s' }}></div>
                       <div className="w-4 h-16 bg-[#0d7bda] animate-pulse rounded" style={{ animationDelay: '0.4s' }}></div>
                     </div>
-                  ) : playedQuestions.current.has(currentQuestionId) ? (
-                    <div className="text-white text-7xl font-bold">Пім пім патапум...</div>
+                      ) : playedQuestions.current.has(currentQuestionId) ? (
+                    <div className="text-white text-3xl screen900:text-4xl 2xl:text-3xl font-bold">Пім пім патапум...</div>
                   ) : null}
                 </div>
               )}

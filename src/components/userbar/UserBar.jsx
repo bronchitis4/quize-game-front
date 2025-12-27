@@ -13,7 +13,7 @@ const UserBar = ({name, avatarUrl, score, isCurrentSelector}) => {
       <div className="w-8 py-0.5 text-[8px] mt-1 screen900:w-24 screen900:py-2 screen900:text-xs screen900:mt-2 lg:screen900:w-28 lg:screen900:py-2 xl:w-32 xl:py-2 2xl:w-36 bg-[#2a2a2a] text-center rounded">
         <p className="font-bold text-white truncate">{name}</p>
       </div>
-      <p className="text-[10px] py-0 screen900:text-sm screen900:py-1 lg:text-base xl:text-base 2xl:text-base text-yellow-300 font-bold">{score}</p>
+      <p className="text-[10px] py-0 screen900:text-sm screen900:py-1 2xl:text-base text-yellow-300 font-bold">{score}</p>
     </div>
   )
 }
