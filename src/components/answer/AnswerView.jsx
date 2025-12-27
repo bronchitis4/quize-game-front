@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 const convertGitHubUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
   
-  // Перевіряємо чи це GitHub посилання з blob
+  // Checking if this is a GitHub link with a blob
   if (url.includes('github.com') && url.includes('/blob/')) {
     return url
       .replace('github.com', 'raw.githubusercontent.com')
@@ -21,14 +21,14 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    // Автоматично відтворюємо фонову музику, якщо вона є
+    // Automatically play background music if there is one
     if (answer?.backgroundMusic && backgroundMusicRef.current) {
       backgroundMusicRef.current.play().catch(err => {
         console.log('Autoplay blocked:', err);
       });
     }
 
-    // Зупиняємо музику при демонтуванні компонента
+    // Stopping the music when dismantling a component
     return () => {
       if (backgroundMusicRef.current) {
         backgroundMusicRef.current.pause();
@@ -67,7 +67,7 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
         />
       )}
       
-      {/* Показуємо правильну відповідь */}
+      {/* Showing the correct answer */}
       <div className="rounded-lg w-full h-full flex flex-col bg-[#2a2a2a] border-2 border-[#3a3a3a] overflow-hidden">
         <div className="bg-[#2d5c2d] text-white text-center rounded-t-lg text-3xl font-bold p-4">
           Правильна відповідь
@@ -139,8 +139,6 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
           </div>
         ) : null}
       </div>
-
-      {/* Кнопка для хоста переміщена у HostSidebar */}
     </div>
   );
 };
