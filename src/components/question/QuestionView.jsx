@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 const convertGitHubUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
   
-  // Перевіряємо чи це GitHub посилання з blob
+  // Checking if this is a GitHub link with a blob
   if (url.includes('github.com') && url.includes('/blob/')) {
     return url
       .replace('github.com', 'raw.githubusercontent.com')
@@ -29,13 +29,13 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
 
   useEffect(() => {
     if (currentQuestion?.type === 'audio') {
-      // Перевіряємо чи це питання вже відтворювалось
+      // Check if this question has already been played
       if (!playedQuestions.current.has(currentQuestionId)) {
-        // Запускаємо відлік автоматично при завантаженні аудіо питання
+        // Start the countdown automatically when the audio question loads
         setCountdown(3);
         setIsPlaying(false);
       } else {
-        // Якщо вже відтворювалось, показуємо текст без відтворення
+        // Start the countdown automatically when the audio question loads
         setCountdown(null);
         setIsPlaying(false);
       }
@@ -51,10 +51,10 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (countdown === 0 && audioRef.current && !playedQuestions.current.has(currentQuestionId)) {
-      // Відлік закінчився, відтворюємо аудіо один раз
+      // Countdown is over, play audio once
       audioRef.current.play();
       setIsPlaying(true);
-      playedQuestions.current.add(currentQuestionId); // Додаємо тільки після відтворення
+      playedQuestions.current.add(currentQuestionId); // Add only after playback
       setCountdown(null);
     }
   }, [countdown, currentQuestionId]);
@@ -145,10 +145,7 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
             )}
           </div>
         ) : null}
-      </div>
-
-      
-      {/* Buzz-in button moved to HostSidebar for layout */}
+      </div>      
     </div>
   );
 };
