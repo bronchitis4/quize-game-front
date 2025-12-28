@@ -10,8 +10,8 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
   };
 
   return (
-    <div className="w-full h-full min-w-0  p-1 screen900:p-4 lg:p-4 xl:p-6 2xl:p-6">
-      <div className="overflow-x-auto w-full h-full">
+    <div className="w-full h-full min-w-0 screen900:p-4">
+      <div className="overflow-x-auto lg:overflow-x-hidden w-full h-full">
         <div
           className="grid gap-1 screen900:gap-4 h-full"
           style={{
