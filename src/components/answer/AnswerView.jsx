@@ -3,7 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 const convertGitHubUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
   
+<<<<<<< HEAD
   // Checking if this is a GitHub link with a blob
+=======
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
   if (url.includes('github.com') && url.includes('/blob/')) {
     return url
       .replace('github.com', 'raw.githubusercontent.com')
@@ -21,14 +24,21 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+<<<<<<< HEAD
     // Automatically play background music if there is one
+=======
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
     if (answer?.backgroundMusic && backgroundMusicRef.current) {
       backgroundMusicRef.current.play().catch(err => {
         console.log('Autoplay blocked:', err);
       });
     }
+<<<<<<< HEAD
 
     // Stopping the music when dismantling a component
+=======
+    // stop background music on unmount
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
     return () => {
       if (backgroundMusicRef.current) {
         backgroundMusicRef.current.pause();
@@ -67,7 +77,11 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
         />
       )}
       
+<<<<<<< HEAD
       {/* Showing the correct answer */}
+=======
+      {/* Show correct answer */}
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
       <div className="rounded-lg w-full h-full flex flex-col bg-[#2a2a2a] border-2 border-[#3a3a3a] overflow-hidden">
         <div className="bg-[#2d5c2d] text-white text-center rounded-t-lg text-3xl font-bold p-4">
           Правильна відповідь
@@ -139,6 +153,11 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
           </div>
         ) : null}
       </div>
+<<<<<<< HEAD
+=======
+
+      {/* Host button moved to HostSidebar */}
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
     </div>
   );
 };

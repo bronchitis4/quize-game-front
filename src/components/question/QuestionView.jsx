@@ -3,7 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 const convertGitHubUrl = (url) => {
   if (!url || typeof url !== 'string') return url;
   
+<<<<<<< HEAD
   // Checking if this is a GitHub link with a blob
+=======
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
   if (url.includes('github.com') && url.includes('/blob/')) {
     return url
       .replace('github.com', 'raw.githubusercontent.com')
@@ -15,12 +18,6 @@ const convertGitHubUrl = (url) => {
 
 const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
   const currentQuestion = gameState?.currentQuestion?.question;
-  const currentAnswerer = gameState?.currentAnswerer;
-  const bannedAnswerers = gameState?.bannedAnswerers || [];
-  const myId = getSocketId();
-  const hasCurrentAnswererField = gameState && Object.prototype.hasOwnProperty.call(gameState, 'currentAnswerer');
-  const isAnswererPresent = Array.isArray(currentAnswerer) ? currentAnswerer.length > 0 : !!currentAnswerer;
-  const canBuzzIn = hasCurrentAnswererField && !bannedAnswerers.includes(myId) && !isAnswererPresent;
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [countdown, setCountdown] = useState(null);
@@ -29,6 +26,7 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
 
   useEffect(() => {
     if (currentQuestion?.type === 'audio') {
+<<<<<<< HEAD
       // Check if this question has already been played
       if (!playedQuestions.current.has(currentQuestionId)) {
         // Start the countdown automatically when the audio question loads
@@ -36,6 +34,12 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
         setIsPlaying(false);
       } else {
         // Start the countdown automatically when the audio question loads
+=======
+      if (!playedQuestions.current.has(currentQuestionId)) {
+        setCountdown(3);
+        setIsPlaying(false);
+      } else {
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
         setCountdown(null);
         setIsPlaying(false);
       }
@@ -51,10 +55,16 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (countdown === 0 && audioRef.current && !playedQuestions.current.has(currentQuestionId)) {
+<<<<<<< HEAD
       // Countdown is over, play audio once
       audioRef.current.play();
       setIsPlaying(true);
       playedQuestions.current.add(currentQuestionId); // Add only after playback
+=======
+      audioRef.current.play();
+      setIsPlaying(true);
+      playedQuestions.current.add(currentQuestionId);
+>>>>>>> f210e1a (fix: improve portrait mobile layout)
       setCountdown(null);
     }
   }, [countdown, currentQuestionId]);

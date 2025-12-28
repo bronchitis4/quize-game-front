@@ -1,6 +1,7 @@
 const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
   const categories = gameState?.package?.categories || [];
   const maxQuestions = Math.max(...categories.map(cat => cat.questions?.length || 0), 5);
+  const gridMinWidth = `${180 + maxQuestions * 120}px`; // approximate min width to allow horizontal scrolling when many columns
 
   const handleQuestionSelect = (categoryIndex, questionIndex) => {
     if (isHost) {
@@ -9,14 +10,16 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
   };
 
   return (
-    <div className="w-full h-full min-w-0 bg-black p-1 screen900:p-4 lg:p-4 xl:p-6 2xl:p-6">
-      <div
-        className="grid gap-1 screen900:gap-4 w-full h-full"
-        style={{
-          gridTemplateColumns: `minmax(100px,180px) repeat(${maxQuestions}, minmax(60px,1fr))`,
-          gridTemplateRows: `repeat(${categories.length}, minmax(60px,1fr))`,
-        }}
-      >
+    <div className="w-full h-full min-w-0  p-1 screen900:p-4 lg:p-4 xl:p-6 2xl:p-6">
+      <div className="overflow-x-auto w-full h-full">
+        <div
+          className="grid gap-1 screen900:gap-4 h-full"
+          style={{
+            minWidth: gridMinWidth,
+            gridTemplateColumns: `minmax(100px,180px) repeat(${maxQuestions}, minmax(60px,1fr))`,
+            gridTemplateRows: `repeat(${categories.length}, minmax(60px,1fr))`,
+          }}
+        >
        
         {/* Rows: category name + questions */}
         {categories.map((category, catIndex) => (
@@ -52,6 +55,7 @@ const GameBoard = ({ gameState, isHost, selectQuestion, gameId }) => {
             })}
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

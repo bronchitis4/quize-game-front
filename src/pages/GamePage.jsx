@@ -44,7 +44,7 @@ const GamePage = ({
     switch (displayedStatus) {
       case 'LOBBY':
         return (
-          <div className="flex gap-8">
+          <div className="flex gap-8 justify-center items-center">
             <div className="w-12 h-12 bg-[#0d7bda] rounded-full animate-pulse"></div>
             <div className="w-12 h-12 bg-[#0d7bda] rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
             <div className="w-12 h-12 bg-[#0d7bda] rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
@@ -92,7 +92,7 @@ const GamePage = ({
   };
 
   return (
-    <div className="flex h-screen bg-[#0f0f0f] gap-2 p-2">
+    <div className="game-layout flex h-screen bg-[#0f0f0f] gap-2 p-2">
       <HostSidebar 
         gameState={gameState} 
         gameId={gameId}
@@ -110,10 +110,9 @@ const GamePage = ({
       <div className="flex-1 flex flex-col gap-2">
         <div className="bg-[#1a1a1a] border-2 border-[#2a2a2a] flex-1 flex items-center justify-center overflow-hidden relative">
           <div 
-            className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
+            className={`absolute inset-0 flex items-stretch justify-center transition-all duration-300 ${
               isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-            }`}
-          >
+            }`}>
             {renderGameState()}
           </div>
         </div>
