@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import defaultProfile from '../../assets/profile/profile.jpg';
 
 const JoinGameForm = ({ joinGame, wsLoading }) => {
   const [step, setStep] = useState('profile');
@@ -25,10 +26,7 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
       setError('Введіть ім\'я');
       return;
     }
-    if (!avatar) {
-      setError('Завантажте аватар');
-      return;
-    }
+    // Якщо не вибрано аватар, використовуємо стандартний
     setStep('join');
     setError('');
   };
@@ -43,7 +41,9 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
       setError('Введіть пароль');
       return;
     }
-    joinGame(name, avatarPreview, gameId, password);
+    // Якщо не вибрано аватар, використовуємо стандартний
+    const avatarToSend = avatarPreview || defaultProfile;
+    joinGame(name, avatarToSend, gameId, password);
   };
 
   if (step === 'profile') {
@@ -73,11 +73,9 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
               />
             </div>
 
-            {avatarPreview && (
-              <div className="text-center">
-                <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
-              </div>
-            )}
+            <div className="text-center">
+              <img src={avatarPreview || defaultProfile} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
+            </div>
 
             {error && <div className="text-red-400 text-sm p-2 border border-red-900 rounded bg-red-950">{error}</div>}
 

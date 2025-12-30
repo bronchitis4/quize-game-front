@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import defaultProfile from '../../assets/profile/profile.jpg';
 
 const CreateGameForm = ({ createGame, wsLoading }) => {
   const [step, setStep] = useState('profile'); 
@@ -24,10 +25,7 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
       setError('Введіть ім\'я');
       return;
     }
-    if (!avatar) {
-      setError('Завантажте аватар');
-      return;
-    }
+    // Якщо не вибрано аватар, використовуємо стандартний
     setStep('password');
     setError('');
   };
@@ -38,7 +36,9 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
       setError('Мін. 4 символи');
       return;
     }
-    createGame(name, avatarPreview, password);
+    // Якщо не вибрано аватар, використовуємо стандартний
+    const avatarToSend = avatarPreview || defaultProfile;
+    createGame(name, avatarToSend, password);
   };
 
   if (step === 'profile') {
@@ -46,11 +46,9 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
       <div className="flex items-center justify-center min-h-screen p-6 bg-[#0f0f0f]">
         <div className="w-full max-w-md flex flex-col gap-4 items-center bg-[#1a1a1a] p-8 rounded-lg border border-[#2a2a2a] animate-fade-in">
           <h2 className="text-2xl font-bold mb-2 text-white">Створити гру</h2>
-           {avatarPreview && (
-              <div className="text-center flex justify-center">
-                <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
-              </div>
-            )}
+            <div className="text-center flex justify-center">
+              <img src={avatarPreview || defaultProfile} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
+            </div>
           <form onSubmit={handleProfileSubmit} className="space-y-4 w-full">
             <div>
               <label className="block text-sm font-bold mb-2 text-[#e0e0e0]">Ім'я:</label>
@@ -91,9 +89,7 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
         <h2 className="text-2xl font-bold mb-2 text-center text-white">Пароль гри</h2>
         <form onSubmit={handleCreateGame} className="space-y-4 w-full">
           <div className="text-center mb-4 flex items-center flex-col">
-            {avatarPreview && (
-              <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-[#0d7bda]" />
-            )}
+            <img src={avatarPreview || defaultProfile} alt="Avatar" className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-[#0d7bda]" />
             <p className="font-bold text-white">{name}</p>
           </div>
 

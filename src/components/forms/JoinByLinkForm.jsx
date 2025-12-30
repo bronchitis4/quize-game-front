@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import defaultProfile from '../../assets/profile/profile.jpg';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const JoinByLinkForm = ({ joinGame, wsLoading }) => {
@@ -34,27 +35,20 @@ const JoinByLinkForm = ({ joinGame, wsLoading }) => {
       setError('Введіть ім\'я');
       return;
     }
-    if (!avatar) {
-      setError('Завантажте аватар');
-      return;
-    }
     if (!gameId || !password) {
       setError('Невірне посилання запрошення');
       return;
     }
-    joinGame(name, avatarPreview, gameId, password);
+    // Якщо не вибрано аватар, використовуємо стандартний
+    const avatarToSend = avatarPreview || defaultProfile;
+    joinGame(name, avatarToSend, gameId, password);
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-[#0f0f0f]">
       <div className="w-full max-w-sm bg-[#1a1a1a] p-6 rounded-lg border border-[#2a2a2a]">
         <h2 className="text-2xl font-bold mb-4 text-white">Приєднання до гри</h2>
-        {gameId && (
-          <div className="mb-4 p-3 bg-[#2a2a2a] border border-[#3a3a3a] rounded">
-            <p className="text-sm text-gray-400">ID гри:</p>
-            <p className="font-mono font-bold text-white">{gameId}</p>
-          </div>
-        )}
+      
         <form onSubmit={handleJoinGame} className="space-y-3">
           <div>
             <label className="block text-sm font-bold mb-1 text-[#e0e0e0]">Ім'я:</label>
@@ -78,11 +72,9 @@ const JoinByLinkForm = ({ joinGame, wsLoading }) => {
             />
           </div>
 
-          {avatarPreview && (
-            <div className="text-center">
-              <img src={avatarPreview} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
-            </div>
-          )}
+          <div className="text-center">
+            <img src={avatarPreview || defaultProfile} alt="Preview" className="w-20 h-20 rounded-full mx-auto border-2 border-[#0d7bda]" />
+          </div>
 
           {error && <div className="text-red-400 text-sm p-2 border border-red-900 rounded bg-red-950">{error}</div>}
 

@@ -294,6 +294,159 @@
           }
         }
       ]
+    },
+    {
+      "title": "Локальні приколи",
+      "questions": [
+        {
+          "points": 100,
+          "type": "text",
+          "content": "Розкажи коронний анегдот Назара.",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Табуретка",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 150,
+          "type": "text",
+          "content": "Як звати панянку яка піздила дітей указкою?",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Марія Йосипівна",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 200,
+          "type": "text",
+          "content": "Назар, Богдан, Йоржик... Та там такеееееееееее",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Та там такеееееееееее",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 250,
+          "type": "text",
+          "content": "Навіщо нас обшукувала фізручка в школі?",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Юра, флешка, фізра",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 300,
+          "type": "text",
+          "content": "Кликуха Максима в початковій школі?",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Я не пам'ятаю",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 350,
+          "type": "text",
+          "content": "Назвіть прізвище Валерії.",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Шафір",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 400,
+          "type": "text",
+          "content": "Хто роздавав \"силові\" вакансії в чаті?",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Михайло Балик",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 450,
+          "type": "text",
+          "content": "Чому Дмитра вхопив корч?",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Город, тички, зашків",
+            "backgroundMusic": ""
+          }
+        }
+      ]
+    },
+    {
+      "title": "рвотні мандри",
+      "questions": [
+        {
+          "points": 100,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/rvotni%20mandry/1%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Ліля",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 200,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/rvotni%20mandry/2%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Юра",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 300,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/rvotni%20mandry/3%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Данило",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 400,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/rvotni%20mandry/4%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Віталік",
+            "backgroundMusic": ""
+          }
+        },
+        {
+          "points": 500,
+          "type": "image",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/rvotni%20mandry/5%20image.png",
+          "answer": {
+            "type": "text",
+            "content": "",
+            "text": "Дмитро",
+            "backgroundMusic": ""
+          }
+        }
+      ]
     }
   ]
 }
