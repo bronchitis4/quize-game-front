@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import defaultProfile from '../../assets/profile/profile.jpg';
+import { saveLastGameData } from '../../utils/localGameData';
 
 const CreateGameForm = ({ createGame, wsLoading }) => {
   const [step, setStep] = useState('profile'); 
@@ -25,7 +26,7 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
       setError('Введіть ім\'я');
       return;
     }
-    // Якщо не вибрано аватар, використовуємо стандартний
+      // If no avatar is selected, use default
     setStep('password');
     setError('');
   };
@@ -36,9 +37,17 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
       setError('Мін. 4 символи');
       return;
     }
-    // Якщо не вибрано аватар, використовуємо стандартний
+      // If no avatar is selected, use default
     const avatarToSend = avatarPreview || defaultProfile;
     createGame(name, avatarToSend, password);
+      // Save last game data to localStorage
+    const lastGameData = {
+      nickname: name,
+      avatar: avatarToSend,
+      password,
+        // id will be added after game creation (see GamePage)
+    };
+    saveLastGameData(lastGameData);
   };
 
   if (step === 'profile') {

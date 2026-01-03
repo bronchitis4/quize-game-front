@@ -6,22 +6,56 @@ import AnswerView from '../components/answer/AnswerView';
 import Podium from '../components/podium/Podium';
 import HostSidebar from '../components/sidebar/HostSidebar';
 import PlayersBar from '../components/playersbar/PlayersBar';
+import { saveLastGameData } from '../utils/localGameData';
+import JoinGameForm from '../components/forms/JoinGameForm';
 
-const GamePage = ({ 
-  gameState, 
-  loadPackage, 
-  startGame, 
-  selectQuestion, 
-  buzzIn, 
-  correctAnswer, 
-  wrongAnswer, 
-  skipQuestion, 
+const GamePage = ({
+  gameState,
+  loadPackage,
+  startGame,
+  selectQuestion,
+  buzzIn,
+  correctAnswer,
+  wrongAnswer,
+  skipQuestion,
   nextQuestion,
-  getSocketId 
+  getSocketId,
+  joinGame
 }) => {
   const { gameId } = useParams();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedStatus, setDisplayedStatus] = useState(gameState?.status);
+  const [autoJoinTried, setAutoJoinTried] = useState(false);
+  console.log('GamePage rendered with gameId:', gameId);
+
+  useEffect(() => {
+    if (gameState?.roomId) {
+      const lastGameRaw = localStorage.getItem('lastGameData');
+      if (lastGameRaw) {
+        const lastGame = JSON.parse(lastGameRaw);
+        if (!lastGame.id || lastGame.id !== gameState.roomId) {
+          saveLastGameData({ ...lastGame, id: gameState.roomId });
+        }
+      }
+    }
+  }, [gameState?.roomId]);
+
+  useEffect(() => {
+    console.log('GamePage useEffect triggered');
+    if (!autoJoinTried) {
+      const lastGameRaw = localStorage.getItem('lastGameData');
+      if (lastGameRaw) {
+        const lastGame = JSON.parse(lastGameRaw);
+        if (lastGame.id === gameId) {
+          console.log('Auto-joining with saved data');
+
+          joinGame(lastGame.nickname, lastGame.avatar, gameId, lastGame.password);
+          console.log('Auto-joining with saved data');
+        }
+      }
+      setAutoJoinTried(true);
+    }
+  }, [gameId, joinGame, autoJoinTried]);
 
   useEffect(() => {
     if (gameState?.status !== displayedStatus) {
@@ -34,11 +68,12 @@ const GamePage = ({
     }
   }, [gameState?.status, displayedStatus]);
 
-  if (!gameState) {
-    return <div className="p-8 bg-[#0f0f0f] text-white min-h-screen">Гра не знайдена</div>;
+  // If not auto-join, show join form
+  if (!gameState && autoJoinTried) {
+    return <JoinGameForm joinGame={joinGame} wsLoading={false} />;
   }
-
-  const isHost = gameState.players?.find(p => p.isHost)?.id === getSocketId();
+  console.log('GamePage rendered with gamestate:', gameState);
+  const isHost = gameState?.players?.find(p => p.isHost)?.id === getSocketId();
 
   const renderGameState = () => {
     switch (displayedStatus) {
@@ -52,18 +87,18 @@ const GamePage = ({
         );
       case 'PLAYING':
         return (
-          <GameBoard 
-            gameState={gameState} 
-            isHost={isHost} 
+          <GameBoard
+            gameState={gameState}
+            isHost={isHost}
             selectQuestion={selectQuestion}
             gameId={gameId}
           />
         );
       case 'QUESTION_ACTIVE':
         return (
-          <QuestionView 
-            gameState={gameState} 
-            isHost={isHost} 
+          <QuestionView
+            gameState={gameState}
+            isHost={isHost}
             buzzIn={buzzIn}
             gameId={gameId}
             getSocketId={getSocketId}
@@ -71,9 +106,9 @@ const GamePage = ({
         );
       case 'ANSWER':
         return (
-          <AnswerView 
-            gameState={gameState} 
-            isHost={isHost} 
+          <AnswerView
+            gameState={gameState}
+            isHost={isHost}
             nextQuestion={nextQuestion}
             gameId={gameId}
           />
@@ -91,10 +126,12 @@ const GamePage = ({
     }
   };
 
+  if (!gameState) return null;
+
   return (
     <div className="game-layout flex h-screen bg-[#0f0f0f] gap-2 p-2">
-      <HostSidebar 
-        gameState={gameState} 
+      <HostSidebar
+        gameState={gameState}
         gameId={gameId}
         isHost={isHost}
         loadPackage={loadPackage}
@@ -109,17 +146,16 @@ const GamePage = ({
 
       <div className="flex-1 flex flex-col gap-2">
         <div className="bg-[#1a1a1a] border-2 border-[#2a2a2a] flex-1 flex items-center justify-center overflow-hidden relative">
-          <div 
-            className={`absolute inset-0 flex items-stretch justify-center transition-all duration-300 ${
-              isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-            }`}>
+          <div
+            className={`absolute inset-0 flex items-stretch justify-center transition-all duration-300 ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+              }`}>
             {renderGameState()}
           </div>
         </div>
 
-        <PlayersBar 
-          players={gameState.players} 
-          currentAnswerer={gameState.currentAnswerer} 
+        <PlayersBar
+          players={gameState.players}
+          currentAnswerer={gameState.currentAnswerer}
         />
       </div>
     </div>

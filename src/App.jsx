@@ -99,6 +99,7 @@ function App() {
             skipQuestion={skipQuestion}
             nextQuestion={nextQuestion}
             getSocketId={getSocketId}
+            joinGame={joinGame}
           />
         } 
       />

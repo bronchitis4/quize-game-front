@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import defaultProfile from '../../assets/profile/profile.jpg';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { saveLastGameData } from '../../utils/localGameData';
 
 const JoinByLinkForm = ({ joinGame, wsLoading }) => {
   const [searchParams] = useSearchParams();
@@ -39,9 +40,17 @@ const JoinByLinkForm = ({ joinGame, wsLoading }) => {
       setError('Невірне посилання запрошення');
       return;
     }
-    // Якщо не вибрано аватар, використовуємо стандартний
+    // If no avatar is selected, use default
     const avatarToSend = avatarPreview || defaultProfile;
     joinGame(name, avatarToSend, gameId, password);
+    // Save last join data to localStorage
+    const lastGameData = {
+      id: gameId,
+      nickname: name,
+      avatar: avatarToSend,
+      password,
+    };
+    saveLastGameData(lastGameData);
   };
 
   return (

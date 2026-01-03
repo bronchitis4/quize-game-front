@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import defaultProfile from '../../assets/profile/profile.jpg';
+import { saveLastGameData } from '../../utils/localGameData';
 
 const JoinGameForm = ({ joinGame, wsLoading }) => {
   const [step, setStep] = useState('profile');
@@ -26,7 +27,6 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
       setError('Введіть ім\'я');
       return;
     }
-    // Якщо не вибрано аватар, використовуємо стандартний
     setStep('join');
     setError('');
   };
@@ -41,9 +41,17 @@ const JoinGameForm = ({ joinGame, wsLoading }) => {
       setError('Введіть пароль');
       return;
     }
-    // Якщо не вибрано аватар, використовуємо стандартний
+      // If no avatar is selected, use default
     const avatarToSend = avatarPreview || defaultProfile;
     joinGame(name, avatarToSend, gameId, password);
+      // Save last join data to localStorage
+    const lastGameData = {
+      id: gameId,
+      nickname: name,
+      avatar: avatarToSend,
+      password,
+    };
+    saveLastGameData(lastGameData);
   };
 
   if (step === 'profile') {

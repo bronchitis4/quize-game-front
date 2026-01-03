@@ -25,6 +25,17 @@
             "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/2%20back.mp3"
           }
         },
+         {
+          "points": 250,
+          "type": "audio",
+          "content": "https://github.com/Dmytr0F/package/blob/main/package/music/7%20sound.mp3",
+          "answer": {
+            "type": "image",
+            "content": "https://github.com/Dmytr0F/package/blob/main/package/music/7%20video.jpg",
+            "text": "Мая абарона!",
+            "backgroundMusic": "https://github.com/Dmytr0F/package/blob/main/package/music/7%20back.mp3"
+          }
+        },
         {
           "points": 500,
           "type": "audio",
