@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BuzzButton from './BuzzButton';
 
 const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correctAnswer, wrongAnswer, skipQuestion, buzzIn, getSocketId, nextQuestion }) => {
   const [packageLoaded, setPackageLoaded] = useState(!!gameState?.package);
@@ -19,12 +20,10 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
         reader.onload = (event) => {
           try {
             const jsonData = JSON.parse(event.target?.result);
-            console.log('Package loaded:', jsonData);
             loadPackage(gameId, jsonData);
             setPackageLoaded(true);
           } catch (error) {
             alert('Error loading JSON file');
-            console.error(error);
           }
         };
         reader.readAsText(file);
@@ -43,7 +42,7 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     }).catch(err => {
-      console.error('Failed to copy:', err);
+      // Failed to copy
     });
   };
 
@@ -164,16 +163,7 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
         )}
         {gameState.status === 'QUESTION_ACTIVE' && !isHost && hasCurrentAnswererField && (
           <div className="mt-4">
-            <button
-              onClick={() => buzzIn && buzzIn(gameId)}
-              disabled={!canBuzzIn}
-              className={
-                `w-full bg-red-600 hover:bg-red-500 disabled:bg-[#3a3a3a] disabled:cursor-not-allowed text-white rounded-full py-4 text-3xl font-bold transition-all duration-300 shadow-2xl ` +
-                (!canBuzzIn ? 'opacity-60' : '')
-              }
-            >
-              !
-            </button>
+            <BuzzButton onClick={() => buzzIn && buzzIn(gameId)} disabled={!canBuzzIn} />
           </div>
         )}
         {gameState.status === 'ANSWER' && isHost && (

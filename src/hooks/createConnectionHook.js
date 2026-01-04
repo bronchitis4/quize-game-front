@@ -129,13 +129,11 @@ export const useWebSocket = () => {
         };
         
         const handleStateUpdate = (state) => {
-            console.log('State update received in hook:', state);
             setGameState(state);
             setLoading(false);
         };
 
         const handleGameStarted = (state) => {
-            console.log('Game started received in hook:', state);
             setGameState(state);
             setLoading(false);
         };

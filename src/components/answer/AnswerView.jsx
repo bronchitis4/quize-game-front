@@ -24,7 +24,7 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
     // Automatically play background music if there is one
     if (answer?.backgroundMusic && backgroundMusicRef.current) {
       backgroundMusicRef.current.play().catch(err => {
-        console.log('Autoplay blocked:', err);
+        // Autoplay blocked
       });
     }
 
@@ -94,13 +94,12 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
             </div>
           </>
         ) : answer.type === 'video' ? (
-          <div className="flex justify-center items-center flex-1">
+          <div className="flex justify-center items-center flex-1 w-full h-full overflow-hidden">
             <video 
               src={convertGitHubUrl(answer.content)} 
               controls 
               autoPlay
-              className="max-w-full max-h-[60vh]"
-              style={{height: '100%', objectFit: 'contain'}}
+              className="max-h-full max-w-full object-contain"
             />
           </div>
         ) : answer.type === 'text' && !answer.text ? (

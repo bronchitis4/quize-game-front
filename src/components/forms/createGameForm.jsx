@@ -6,7 +6,7 @@ const CreateGameForm = ({ createGame, wsLoading }) => {
   const [step, setStep] = useState('profile'); 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [avatar, setAvatar] = useState(null);
+  const [_, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [error, setError] = useState('');
 

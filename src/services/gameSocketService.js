@@ -28,8 +28,6 @@ class GameSocketService extends SimpleEventEmitter {
   constructor() {
     super();
 
-    console.log('Connecting to server:', this.#SERVER_URL);
-
     this.#socket = io(this.#SERVER_URL, {
       autoConnect: false,
       transports: ['polling', 'websocket'],
@@ -45,39 +43,33 @@ class GameSocketService extends SimpleEventEmitter {
 
   #setupListeners() {
     this.#socket.on('connect', () => {
-      console.log('Connected to server, socket id:', this.#socket.id);
       this.emit('connection_status', true);
     });
 
     this.#socket.on('disconnect', (reason) => {
-      console.log('Disconnected from server, reason:', reason);
       this.emit('connection_status', false);
     });
 
     this.#socket.on('connect_error', (error) => {
-      console.error('Connection error:', error);
+      // Connection error
     });
 
     this.#socket.on('game_created', (data) => {
-      console.log('game_created event received:', data);
       this.#gameState = data;
       this.emit('game_created', data);
     });
 
     this.#socket.on('game_joined', (data) => {
-      console.log('game_joined event received:', data);
       this.#gameState = data;
       this.emit('game_joined', data);
     });
 
     this.#socket.on('state_update', (state) => {
-      console.log('state_update event received:', state);
       this.#gameState = state;
       this.emit('state_update', state);
     });
 
     this.#socket.on('game_started', (gameState) => {
-      console.log('game_started event received:', gameState);
       this.#gameState = gameState;
       this.emit('game_started', gameState);
     });
@@ -135,21 +127,16 @@ class GameSocketService extends SimpleEventEmitter {
   // LOBBY
   // =========================
   async createLobby(playerName, avatarUrl, password) {
-    console.log('Emitting create_game');
-
     const ack = await this.#emitWithAck('create_game', {
       playerName,
       avatarUrl,
       password,
     });
 
-    console.log('Server acknowledged create_game:', ack);
     return ack;
   }
 
   async joinLobby(gameId, playerName, avatarUrl, password) {
-    console.log('Emitting join_game');
-
     const ack = await this.#emitWithAck('join_game', {
       gameId,
       playerName,
@@ -157,7 +144,6 @@ class GameSocketService extends SimpleEventEmitter {
       password,
     });
 
-    console.log('Server acknowledged join_game:', ack);
     return ack;
   }
 
@@ -176,7 +162,6 @@ class GameSocketService extends SimpleEventEmitter {
 
   async nextQuestion(gameId) {
     await this.connect();
-    console.log('Emitting next_question:', { gameId });
     this.#socket.emit('next_question', { gameId });
   }
 
@@ -193,37 +178,31 @@ class GameSocketService extends SimpleEventEmitter {
   async loadPackage(gameId, packageData) {
     await this.connect();
     const packageArray = packageData.categories || packageData;
-    console.log('Emitting load_package with data:', { gameId, package: packageArray });
     this.#socket.emit('load_package', { gameId, package: packageArray });
   }
 
   async selectQuestion(gameId, categoryIndex, questionIndex) {
     await this.connect();
-    console.log('Emitting select_question:', { gameId, categoryIndex, questionIndex });
     this.#socket.emit('select_question', { gameId, categoryIndex, questionIndex });
   }
 
   async correctAnswer(gameId, playerId) {
     await this.connect();
-    console.log('Emitting correct_answer:', { gameId, playerId });
     this.#socket.emit('correct_answer', { gameId, playerId });
   }
 
   async wrongAnswer(gameId, playerId) {
     await this.connect();
-    console.log('Emitting wrong_answer:', { gameId, playerId });
     this.#socket.emit('wrong_answer', { gameId, playerId });
   }
 
   async buzzIn(gameId) {
     await this.connect();
-    console.log('Emitting buzz_in:', { gameId });
     this.#socket.emit('buzz_in', { gameId });
   }
 
   async skipQuestion(gameId) {
     await this.connect();
-    console.log('Emitting skip_question:', { gameId });
     this.#socket.emit('skip_question', { gameId });
   }
 }

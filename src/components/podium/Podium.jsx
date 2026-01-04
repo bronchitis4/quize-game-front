@@ -2,7 +2,7 @@ import React from 'react';
 
 const Podium = ({ players = [] }) => {
   const sorted = players.filter(player => player.isHost !== true).slice().sort((a, b) => (b.score || 0) - (a.score || 0));
-  const [first, second, third, ...rest] = sorted;
+  const [first, second, third] = sorted;
 
   return (
     <div className="w-full h-full overflow-x-auto screen900:overflow-x-visible px-4 screen900:px-0 flex flex-col items-center justify-center gap-8 p-8 bg-[#0f0f0f]">

@@ -1,17 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-
-const convertGitHubUrl = (url) => {
-  if (!url || typeof url !== 'string') return url;
-  
-  // Checking if this is a GitHub link with a blob
-  if (url.includes('github.com') && url.includes('/blob/')) {
-    return url
-      .replace('github.com', 'raw.githubusercontent.com')
-      .replace('/blob/', '/');
-  }
-  
-  return url;
-};
+import { convertGitHubUrl } from '../../utils/convertLinks';
 
 const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
   const currentQuestion = gameState?.currentQuestion?.question;

@@ -26,7 +26,6 @@ const GamePage = ({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayedStatus, setDisplayedStatus] = useState(gameState?.status);
   const [autoJoinTried, setAutoJoinTried] = useState(false);
-  console.log('GamePage rendered with gameId:', gameId);
 
   useEffect(() => {
     if (gameState?.roomId) {
@@ -41,16 +40,12 @@ const GamePage = ({
   }, [gameState?.roomId]);
 
   useEffect(() => {
-    console.log('GamePage useEffect triggered');
     if (!autoJoinTried) {
       const lastGameRaw = localStorage.getItem('lastGameData');
       if (lastGameRaw) {
         const lastGame = JSON.parse(lastGameRaw);
         if (lastGame.id === gameId) {
-          console.log('Auto-joining with saved data');
-
           joinGame(lastGame.nickname, lastGame.avatar, gameId, lastGame.password);
-          console.log('Auto-joining with saved data');
         }
       }
       setAutoJoinTried(true);
@@ -72,7 +67,6 @@ const GamePage = ({
   if (!gameState && autoJoinTried) {
     return <JoinGameForm joinGame={joinGame} wsLoading={false} />;
   }
-  console.log('GamePage rendered with gamestate:', gameState);
   const isHost = gameState?.players?.find(p => p.isHost)?.id === getSocketId();
 
   const renderGameState = () => {
