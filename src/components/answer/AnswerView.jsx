@@ -13,6 +13,31 @@ const convertGitHubUrl = (url) => {
   return url;
 };
 
+const convertYouTubeUrl = (url) => {
+  if (!url || typeof url !== 'string') return url;
+  
+  if (url.includes('youtube.com/watch?v=')) {
+    const videoId = url.split('v=')[1]?.split('&')[0];
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+  }
+  
+  if (url.includes('youtu.be/')) {
+    const videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+  }
+  
+  return url;
+};
+
+const isYouTubeUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  return url.includes('youtube.com') || url.includes('youtu.be');
+};
+
 const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
   const currentQuestion = gameState?.currentQuestion?.question;
   const answer = currentQuestion?.answer;
@@ -95,12 +120,22 @@ const AnswerView = ({ gameState, isHost, nextQuestion, gameId }) => {
           </>
         ) : answer.type === 'video' ? (
           <div className="flex justify-center items-center flex-1 w-full h-full overflow-hidden">
-            <video 
-              src={convertGitHubUrl(answer.content)} 
-              controls 
-              autoPlay
-              className="max-h-full max-w-full object-contain"
-            />
+            {isYouTubeUrl(answer.content) ? (
+              <iframe
+                src={convertYouTubeUrl(answer.content)}
+                className="w-full h-full rounded-lg"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video 
+                src={convertGitHubUrl(answer.content)} 
+                controls 
+                autoPlay
+                className="max-h-full max-w-full object-contain"
+              />
+            )}
           </div>
         ) : answer.type === 'text' && !answer.text ? (
           <div className="text-white text-5xl font-bold text-center p-8 flex-1 flex items-center justify-center">

@@ -129,6 +129,7 @@ export const useWebSocket = () => {
         };
         
         const handleStateUpdate = (state) => {
+            console.log('Received state update:', state);
             setGameState(state);
             setLoading(false);
         };

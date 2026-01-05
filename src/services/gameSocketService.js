@@ -65,6 +65,7 @@ class GameSocketService extends SimpleEventEmitter {
     });
 
     this.#socket.on('state_update', (state) => {
+      console.log('Received state update:', state);
       this.#gameState = state;
       this.emit('state_update', state);
     });

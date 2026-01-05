@@ -54,7 +54,7 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
   const myId = typeof getSocketId === 'function' ? getSocketId() : null;
   const isAnswererPresent = Array.isArray(currentAnswerer) ? currentAnswerer.length > 0 : !!currentAnswerer;
   const canBuzzIn = hasCurrentAnswererField && !bannedAnswerers.includes(myId) && !isAnswererPresent;
-
+  console.log('Current Answerer:', currentAnswerer, 'Banned:', bannedAnswerers, 'My ID:', myId, 'Can Buzz In:', canBuzzIn);
   return (
     <div className="host-sidebar w-40 bg-[#1a1a1a] p-4 flex flex-col gap-3 border-2 border-[#2a2a2a] rounded-lg">
       <div className="host-top">
@@ -121,12 +121,14 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
             )}
           </div>
         )}
-
+        
         {gameState.status === 'QUESTION_ACTIVE' && isHost && currentQuestion && (
           <div className="mt-4 h-[40vh] flex flex-col question-active-host">
-            <div className="bg-[#0d7bda] text-white text-xs font-bold text-center py-2 rounded">
-              {gameState.players?.find(p => p.id === (Array.isArray(gameState.currentAnswerer) ? gameState.currentAnswerer[0] : gameState.currentAnswerer))?.name} відповідає...
-            </div>
+            {isAnswererPresent && (
+              <div className="bg-[#0d7bda] text-white text-xs font-bold text-center py-2 rounded">
+                {gameState.players?.find(p => p.id === (Array.isArray(gameState.currentAnswerer) ? gameState.currentAnswerer[0] : gameState.currentAnswerer))?.name} відповідає...
+              </div>
+            )}
 
             <div className="p-3 rounded mt-3 bg-[#2a2a2a] border border-[#3a3a3a]">
               <div className="text-gray-400 text-xs text-center mb-2">Правильна відповідь:</div>
@@ -139,26 +141,29 @@ const HostSidebar = ({ gameState, gameId, isHost, loadPackage, startGame, correc
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 mt-3">
-              <button 
-                onClick={() => correctAnswer(gameId, gameState.currentSelector)} 
-                className="bg-green-700 hover:bg-green-600 text-white px-2 py-2 rounded font-bold transition-colors text-xs"
-              >
-                Зарахувати
-              </button>
-              <button 
-                onClick={() => wrongAnswer(gameId, gameState.currentSelector)} 
-                className="bg-red-700 hover:bg-red-600 text-white px-2 py-2 rounded font-bold transition-colors text-xs"
-              >
-                Не зарахувати
-              </button>
-              <button 
-                onClick={() => skipQuestion(gameId)} 
-                className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white px-2 py-2 rounded font-bold transition-colors border border-[#3a3a3a] text-xs"
-              >
-                Пропустити
-              </button>
-            </div>
+            {isAnswererPresent && (
+              <div className="flex flex-col gap-2 mt-3">
+                <button 
+                  onClick={() => correctAnswer(gameId, gameState.currentSelector)} 
+                  className="bg-green-700 hover:bg-green-600 text-white px-2 py-2 rounded font-bold transition-colors text-xs"
+                >
+                  Зарахувати
+                </button>
+                <button 
+                  onClick={() => wrongAnswer(gameId, gameState.currentSelector)} 
+                  className="bg-red-700 hover:bg-red-600 text-white px-2 py-2 rounded font-bold transition-colors text-xs"
+                >
+                  Не зарахувати
+                </button>
+              </div>
+            )}
+            
+            <button 
+              onClick={() => skipQuestion(gameId)} 
+              className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white px-2 py-2 rounded font-bold transition-colors border border-[#3a3a3a] text-xs mt-3"
+            >
+              Пропустити
+            </button>
           </div>
         )}
         {gameState.status === 'QUESTION_ACTIVE' && !isHost && hasCurrentAnswererField && (

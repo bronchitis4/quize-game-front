@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { convertGitHubUrl } from '../../utils/convertLinks';
+import { convertGitHubUrl, convertYouTubeUrl, isYouTubeUrl } from '../../utils/convertLinks';
 
 const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
   const currentQuestion = gameState?.currentQuestion?.question;
@@ -77,11 +77,21 @@ const QuestionView = ({ gameState, isHost, buzzIn, gameId, getSocketId }) => {
           </div>
         ) : currentQuestion.type === 'video' ? (
           <div className="flex justify-center flex-col w-full flex-1">
-            <video 
-              src={convertGitHubUrl(currentQuestion.content)} 
-              controls 
-              className="w-full h-full rounded-lg"
-            />
+            {isYouTubeUrl(currentQuestion.content) ? (
+              <iframe
+                src={convertYouTubeUrl(currentQuestion.content)}
+                className="w-full h-full rounded-lg"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video 
+                src={convertGitHubUrl(currentQuestion.content)} 
+                controls 
+                className="w-full h-full rounded-lg"
+              />
+            )}
             {currentQuestion.text && (
               <div className="text-white text-2xl screen900:text-3xl 2xl:text-4xl font-bold text-center mt-6">
                 {currentQuestion.text}

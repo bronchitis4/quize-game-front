@@ -5,6 +5,7 @@ import CreateGameForm from './components/forms/createGameForm.jsx';
 import JoinGameForm from './components/forms/JoinGameForm.jsx';
 import JoinByLinkForm from './components/forms/JoinByLinkForm.jsx';
 import GamePage from './pages/GamePage';
+import PackEditorPage from './pages/PackEditorPage';
 
 function HomePage() {
   return (
@@ -16,9 +17,14 @@ function HomePage() {
             Створити гру
           </button>
         </Link>
-        <Link to="/join" className="block">
+        <Link to="/join" className="block mb-4">
           <button className="w-full bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white py-3 px-4 rounded transition-all duration-300 hover:scale-105 border border-[#3a3a3a]">
             Приєднатися до гри
+          </button>
+        </Link>
+        <Link to="/pack-editor" className="block">
+          <button className="w-full bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white py-3 px-4 rounded transition-all duration-300 hover:scale-105 border border-[#3a3a3a]">
+            Створити пак
           </button>
         </Link>
       </div>
@@ -85,6 +91,7 @@ function App() {
       <Route path="/create" element={<CreateGamePage createGame={createGame} wsLoading={wsLoading} gameState={gameState} />} />
       <Route path="/join" element={<JoinGamePage joinGame={joinGame} wsLoading={wsLoading} gameState={gameState} />} />
       <Route path="/join-link" element={<JoinByLinkPage joinGame={joinGame} wsLoading={wsLoading} gameState={gameState} />} />
+      <Route path="/pack-editor" element={<PackEditorPage />} />
       <Route 
         path="/game/:gameId" 
         element={
