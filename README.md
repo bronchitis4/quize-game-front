@@ -1,150 +1,59 @@
-# 🎮 Гра-Вікторина
+# 🎮 Quiz Game
 
-Інтерактивна гра-вікторина з підтримкою мультимедіа контенту (зображення, відео, аудіо).
+An interactive multiplayer quiz game with support for multimedia content  
+(images, video, and audio).
 
-## 🌐 Посилання
+---
 
-- **Фронтенд**: https://quize-game-front.onrender.com/
-- **Бекенд**: https://quize-game-backend.onrender.com/
+## 🌐 Live Demo
 
-## 📝 Як грати
+- **Frontend**: https://quize-game-front.onrender.com/
+- **Backend**: https://quize-game-backend.onrender.com/
 
-### 1. Створення гри (Ведучий)
+---
 
-1. Перейдіть на сайт: https://quize-game-front.onrender.com/
-2. Натисніть **"Створити гру"**
-3. Введіть своє ім'я та завантажте аватар
-4. Створіть пароль для гри (мінімум 4 символи)
-5. **Важливо!** Завантажте пак з питаннями (файл JSON)
-6. Натисніть **"Розпочати гру"**
+## 📝 How to Play
 
-### 2. Приєднання до гри (Гравці)
+### 1️⃣ Create a Game (Host)
 
-**Варіант 1: За посиланням-запрошенням (рекомендовано)**
-- Ведучий копіює посилання-запрошення та надсилає гравцям
-- Гравці переходять за посиланням та вводять своє ім'я
+1. Open the website:  
+   https://quize-game-front.onrender.com/
+2. Click **"Create Game"**
+3. Enter your name and upload an avatar
+4. Create a game password (minimum 4 characters)
+5. **Important!** Upload a question pack (JSON file)
+6. Click **"Start Game"**
 
-**Варіант 2: Вручну**
-1. Перейдіть на сайт
-2. Натисніть **"Приєднатися до гри"**
-3. Введіть ім'я та завантажте аватар
-4. Введіть ID гри та пароль від ведучого
-5. Приєднайтеся!
+---
 
-### 3. Ігровий процес
+### 2️⃣ Join a Game (Players)
 
-- Ведучий обирає категорію та складність питання
-- З'являється питання (текст, зображення, відео або аудіо)
-- Гравці натискають кнопку **"!"** щоб відповісти
-- Ведучий зараховує або не зараховує відповідь
-- Після відповіді показується правильна відповідь
-- Переходимо до наступного питання
+#### Option 1: Invitation Link (Recommended)
+- The host copies the invitation link and sends it to players
+- Players open the link and enter their name
 
-## ⚠️ ВАЖЛИВА ІНФОРМАЦІЯ ПРО СЕРВЕР
+#### Option 2: Manual Join
+1. Open the website
+2. Click **"Join Game"**
+3. Enter your name and upload an avatar
+4. Enter the Game ID and the password provided by the host
+5. Join the game
 
-### 🔄 Проблема із Render.com
+---
 
-Сервер розміщений на безкоштовному плані Render.com, який **автоматично засинає** після 15 хвилин неактивності.
+### 3️⃣ Gameplay
 
-### ✅ Рішення: Пінгування сервера
+- The host selects a category and difficulty
+- A question appears (text, image, video, or audio)
+- Players press the **"!"** button to answer
+- The host accepts or rejects the answer
+- The correct answer is revealed
+- The game proceeds to the next question
 
-**ПЕРЕД ПОЧАТКОМ ГРИ ОБОВ'ЯЗКОВО:**
+---
 
-1. Відкрийте в браузері: https://quize-game-backend.onrender.com/
-2. Дочекайтеся відповіді сервера (може зайняти 30-60 секунд при першому запуску)
-3. **Під час гри** періодично оновлюйте вкладку з бекендом (кожні 5-10 хвилин)
-
-## 📦 Формат пакету з питаннями
-
-Пак має бути у форматі JSON зі структурою:
-
-```json
-{
-  "categories": [
-    {
-      "title": "Назва категорії",
-      "questions": [
-        {
-          "type": "text",
-          "content": "Текст питання",
-          "points": 100,
-          "answer": {
-            "type": "text",
-            "text": "Правильна відповідь"
-          }
-        },
-        {
-          "type": "image",
-          "content": "URL зображення",
-          "text": "Додатковий текст (опціонально)",
-          "points": 200,
-          "answer": {
-            "type": "text",
-            "text": "Відповідь"
-          }
-        },
-        {
-          "type": "video",
-          "content": "URL відео",
-          "points": 300,
-          "answer": {
-            "type": "text",
-            "text": "Відповідь"
-          }
-        },
-        {
-          "type": "audio",
-          "content": "URL аудіо",
-          "points": 400,
-          "answer": {
-            "type": "text",
-            "text": "Відповідь",
-            "backgroundMusic": "URL фонової музики (опціонально)"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-Якщо хтось захоче зробити редактор паків, то кидайте мені лінк на репозиторій в приват
-
-
-### Типи контенту:
-- **text** - текстове питання
-- **image** - питання з зображенням
-- **video** - питання з відео
-- **audio** - аудіо питання
-
-### Типи відповідей:
-- **text** - текстова відповідь
-- **image** - відповідь з зображенням
-- **video** - відповідь з відео
-- **audio** - аудіо відповідь (з опціональною фоновою музикою)
-
-## 🎯 Особливості
-
-- ✨ Підтримка мультимедіа контенту
-- 👥 Мультиплеєр в реальному часі
-- 🎨 Адаптивний дизайн
-- 🔊 Аудіо питання з автовідтворенням
-- 🎵 Фонова музика для відповідей
-- 📊 Підрахунок очок та подіум переможців
-- 🔗 Приєднання по посиланню-запрошенню
-
-## ⚙️ Технічні деталі
-
-- **Фронтенд**: React 19.2 + Vite + Tailwind CSS
-- **Бекенд**: Node.js + Socket.IO
-- **Хостинг**: Render.com
-
-## 💻 Локальна розробка
-
-```bash
-# Встановлення залежностей
+# Install dependencies
 npm install
 
-# Запуск dev сервера
+# Run development server
 npm run dev
-```
-
